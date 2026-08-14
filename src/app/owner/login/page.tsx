@@ -7,6 +7,7 @@ import Image from "next/image";
 
 export default function OwnerLoginPage() {
   const router = useRouter();
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -15,9 +16,6 @@ export default function OwnerLoginPage() {
     e.preventDefault();
     setLoading(true);
     setError("");
-
-    // Hardcode email to ensure only owner can attempt this route
-    const email = "admin@ananta.in";
 
     const res = await signIn("credentials", {
       redirect: false,
@@ -43,7 +41,7 @@ export default function OwnerLoginPage() {
           </div>
         </div>
 
-        <h1 style={{ textAlign: "center", marginBottom: "0.5rem", color: "var(--primary-dark)", fontSize: "1.5rem" }}>Owner Login</h1>
+        <h1 style={{ textAlign: "center", marginBottom: "0.5rem", color: "var(--primary-dark)", fontSize: "1.5rem" }}>Admin Login</h1>
         <p style={{ textAlign: "center", color: "var(--text-muted)", marginBottom: "2rem", fontSize: "0.9rem" }}>Restricted access. Authorized personnel only.</p>
         
         <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}>
@@ -51,9 +49,10 @@ export default function OwnerLoginPage() {
             <label style={{ display: "block", marginBottom: "0.5rem", fontWeight: 600, fontSize: "0.9rem" }}>Email</label>
             <input 
               type="email" 
-              value="admin@ananta.in" 
-              disabled 
-              style={{ width: "100%", padding: "0.85rem", border: "1px solid var(--border-color)", borderRadius: "var(--radius-md)", background: "var(--bg-alt)", color: "var(--text-muted)", cursor: "not-allowed" }} 
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+              style={{ width: "100%", padding: "0.85rem", border: "1px solid var(--border-color)", borderRadius: "var(--radius-md)", background: "white", color: "var(--text-main)" }} 
             />
           </div>
           <div>

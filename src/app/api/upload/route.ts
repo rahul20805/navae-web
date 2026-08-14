@@ -1,7 +1,13 @@
 import { put } from '@vercel/blob';
 import { NextResponse } from 'next/server';
+import { auth } from '@/auth';
 
 export async function POST(request: Request): Promise<NextResponse> {
+  const session = await auth();
+  if (!session || session.user.role !== 'OWNER') {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 403 });
+  }
+
   const { searchParams } = new URL(request.url);
   const filename = searchParams.get('filename');
 

@@ -1,5 +1,7 @@
 "use server";
 
+import { checkOwner } from "@/lib/check-owner";
+
 import { prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 

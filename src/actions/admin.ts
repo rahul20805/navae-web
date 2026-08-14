@@ -1,20 +1,15 @@
 "use server";
 
+import { checkOwner } from "@/lib/check-owner";
+
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/auth";
 import { revalidatePath } from "next/cache";
 
-async function checkAdmin() {
-  const session = await auth();
-  if (!session || (session.user.role !== "SUPER_ADMIN" && session.user.role !== "ADMIN")) {
-    throw new Error("Unauthorized");
-  }
-}
-
 // ---- PRODUCTS ----
 
 export async function createProduct(data: { name: string, description: string, price: number, stock: number, imageUrl: string }) {
-  await checkAdmin();
+  await checkOwner();
   
   const slug = data.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '');
 
@@ -35,7 +30,8 @@ export async function createProduct(data: { name: string, description: string, p
 }
 
 export async function deleteProduct(id: string) {
-  await checkAdmin();
+  await checkOwner();
+
   await prisma.product.delete({ where: { id } });
   revalidatePath("/admin/products");
   revalidatePath("/shop");
@@ -44,7 +40,7 @@ export async function deleteProduct(id: string) {
 // ---- CLASSES ----
 
 export async function createClass(data: { title: string, instructor: string, schedule: string, duration: string, price: number, maxStudents: number, imageUrl: string }) {
-  await checkAdmin();
+  await checkOwner();
 
   const slug = data.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '');
 
@@ -67,7 +63,8 @@ export async function createClass(data: { title: string, instructor: string, sch
 }
 
 export async function deleteClass(id: string) {
-  await checkAdmin();
+  await checkOwner();
+
   await prisma.class.delete({ where: { id } });
   revalidatePath("/admin/classes");
   revalidatePath("/classes");

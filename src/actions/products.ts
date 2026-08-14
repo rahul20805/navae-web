@@ -1,5 +1,7 @@
 "use server";
 
+import { checkOwner } from "@/lib/check-owner";
+
 import { prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 
@@ -11,6 +13,8 @@ export async function getProducts() {
 }
 
 export async function createProduct(data: any) {
+  await checkOwner();
+
   try {
     const slug = data.name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)+/g, "");
     
@@ -39,6 +43,8 @@ export async function createProduct(data: any) {
 }
 
 export async function updateProduct(id: string, data: any) {
+  await checkOwner();
+
   try {
     const slug = data.name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)+/g, "");
     
@@ -68,6 +74,8 @@ export async function updateProduct(id: string, data: any) {
 }
 
 export async function deleteProduct(id: string) {
+  await checkOwner();
+
   try {
     await prisma.product.delete({ where: { id } });
     revalidatePath("/admin/products");

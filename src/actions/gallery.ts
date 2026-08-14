@@ -1,5 +1,7 @@
 "use server";
 
+import { checkOwner } from "@/lib/check-owner";
+
 import { prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 
@@ -23,6 +25,8 @@ export async function addGalleryItem(data: { url: string, title?: string }) {
 }
 
 export async function deleteGalleryItem(id: string) {
+  await checkOwner();
+
   try {
     await prisma.gallery.delete({ where: { id } });
     revalidatePath("/admin/gallery");

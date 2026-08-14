@@ -1,5 +1,7 @@
 "use server";
 
+import { checkOwner } from "@/lib/check-owner";
+
 import { prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 
@@ -26,6 +28,8 @@ export async function createCoupon(data: {
   usageLimit?: number;
   isActive: boolean;
 }) {
+  await checkOwner();
+
   try {
     const existing = await prisma.coupon.findUnique({ where: { code: data.code.toUpperCase() } });
     if (existing) {
@@ -46,6 +50,8 @@ export async function createCoupon(data: {
 }
 
 export async function updateCoupon(id: string, data: any) {
+  await checkOwner();
+
   try {
     await prisma.coupon.update({
       where: { id },
@@ -75,6 +81,8 @@ export async function toggleCouponStatus(id: string, isActive: boolean) {
 }
 
 export async function deleteCoupon(id: string) {
+  await checkOwner();
+
   try {
     await prisma.coupon.delete({ where: { id } });
     revalidatePath("/admin/coupons");

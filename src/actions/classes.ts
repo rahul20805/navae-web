@@ -1,5 +1,7 @@
 "use server";
 
+import { checkOwner } from "@/lib/check-owner";
+
 import { prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 
@@ -8,6 +10,8 @@ export async function getClasses() {
 }
 
 export async function createClass(data: any) {
+  await checkOwner();
+
   try {
     const slug = data.title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)+/g, "");
     
@@ -34,6 +38,8 @@ export async function createClass(data: any) {
 }
 
 export async function updateClass(id: string, data: any) {
+  await checkOwner();
+
   try {
     const slug = data.title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)+/g, "");
     
@@ -61,6 +67,8 @@ export async function updateClass(id: string, data: any) {
 }
 
 export async function deleteClass(id: string) {
+  await checkOwner();
+
   try {
     await prisma.class.delete({ where: { id } });
     revalidatePath("/admin/classes");

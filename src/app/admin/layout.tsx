@@ -6,8 +6,8 @@ import styles from "./admin.module.css";
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
   const session = await auth();
 
-  if (!session || (session.user.role !== "SUPER_ADMIN" && session.user.role !== "ADMIN")) {
-    redirect("/login");
+  if (!session || session.user.role !== "OWNER") {
+    redirect("/owner/login");
   }
 
   return (

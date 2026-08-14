@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { useCartStore } from "@/store/cartStore";
+import { useCartStore } from "@/store/useCartStore";
 
 type ProductData = {
   id: string;
@@ -27,7 +27,7 @@ export default function ProductCustomizer({ product }: { product: ProductData })
 
   const handleAddToCart = () => {
     addItem({
-      id: product.id,
+      productId: product.id,
       name: product.name,
       price: priceToUse,
       quantity,

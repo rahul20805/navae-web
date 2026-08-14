@@ -12,20 +12,20 @@
   --accent: #C89B3C; /* Antique Gold */
   
   /* Background & Surface */
-  --bg-main: #FFF8F0; /* Soft Cream */
+  --bg-main: #FFFFFF; /* Pure White to match logo background */
   --bg-surface: #FFFFFF; /* Card */
-  --bg-alt: #F3E7D7; /* Warm Beige */
+  --bg-alt: #F8F9FA; /* Very Light Grey for subtle contrast */
   
   /* Typography Colors */
-  --text-main: #241B20; /* Main Text */
-  --text-muted: #6F6268; /* Secondary Text */
+  --text-main: #111827; /* Near Black for max contrast */
+  --text-muted: #4B5563; /* Dark Grey for readable muted text */
   --text-light: #FFFFFF;
   
   /* Borders and Status */
-  --border-color: #E8DCD2; /* Soft Border */
-  --success: #2E7D5B;
-  --warning: #C58A24;
-  --danger: #B83A3A;
+  --border-color: #E5E7EB; /* Soft Grey Border */
+  --success: #059669;
+  --warning: #D97706;
+  --danger: #DC2626;
   
   /* Typography System */
   --font-heading: 'Playfair Display', serif;
@@ -49,14 +49,14 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --bg-main: #1A1317;
-    --bg-surface: #241B20;
-    --bg-alt: #3E1631;
+    --bg-main: #000000;
+    --bg-surface: #111111;
+    --bg-alt: #1F1F1F;
     
-    --text-main: #FFF8F0;
-    --text-muted: #E8DCD2;
+    --text-main: #F9FAFB;
+    --text-muted: #9CA3AF;
     
-    --border-color: #3E1631;
+    --border-color: #374151;
     
     --shadow-sm: 0 4px 12px rgba(0,0,0,0.3);
     --shadow-md: 0 10px 30px rgba(0,0,0,0.4);

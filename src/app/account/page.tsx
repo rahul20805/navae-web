@@ -17,7 +17,7 @@ export default async function AccountPage() {
     redirect("/login?callbackUrl=/account");
   }
 
-  if (session.user.role === "ADMIN" || session.user.role === "SUPER_ADMIN") {
+  if (session.user.role === "OWNER") {
     redirect("/admin");
   }
 

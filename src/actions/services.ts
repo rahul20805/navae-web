@@ -1,5 +1,7 @@
 "use server";
 
+import { checkOwner } from "@/lib/check-owner";
+
 import { prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 
@@ -8,6 +10,8 @@ export async function getServices() {
 }
 
 export async function createService(data: any) {
+  await checkOwner();
+
   try {
     const slug = data.title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)+/g, "");
     
@@ -29,6 +33,8 @@ export async function createService(data: any) {
 }
 
 export async function updateService(id: string, data: any) {
+  await checkOwner();
+
   try {
     const slug = data.title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)+/g, "");
     
@@ -51,6 +57,8 @@ export async function updateService(id: string, data: any) {
 }
 
 export async function deleteService(id: string) {
+  await checkOwner();
+
   try {
     await prisma.service.delete({ where: { id } });
     revalidatePath("/admin/services");

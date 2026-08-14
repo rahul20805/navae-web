@@ -74,11 +74,11 @@ export default function CouponsPage() {
     const payload = {
       ...formData,
       discountValue: Number(formData.discountValue),
-      minOrderValue: formData.minOrderValue ? Number(formData.minOrderValue) : null,
-      maxDiscount: formData.maxDiscount ? Number(formData.maxDiscount) : null,
-      usageLimit: formData.usageLimit ? Number(formData.usageLimit) : null,
-      validFrom: formData.validFrom ? new Date(formData.validFrom) : null,
-      validUntil: formData.validUntil ? new Date(formData.validUntil) : null,
+      minOrderValue: formData.minOrderValue ? Number(formData.minOrderValue) : undefined,
+      maxDiscount: formData.maxDiscount ? Number(formData.maxDiscount) : undefined,
+      usageLimit: formData.usageLimit ? Number(formData.usageLimit) : undefined,
+      validFrom: formData.validFrom ? new Date(formData.validFrom) : undefined,
+      validUntil: formData.validUntil ? new Date(formData.validUntil) : undefined,
     };
 
     let res;

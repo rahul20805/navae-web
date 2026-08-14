@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
 
-export default function WhatsAppButton({ phoneNumber = "911234567890" }: { phoneNumber?: string }) {
+export default function WhatsAppButton({ phoneNumber = "917379609531" }: { phoneNumber?: string }) {
   const pathname = usePathname();
   const [show, setShow] = useState(false);
 

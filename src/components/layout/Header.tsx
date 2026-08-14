@@ -67,12 +67,12 @@ export default function Header() {
             </Link>
             
             {status === "authenticated" && session?.user ? (
-              <Link href={session.user.role === "ADMIN" || session.user.role === "SUPER_ADMIN" ? "/admin" : "/account"} className="btn btn-outline" style={{ display: "flex", alignItems: "center", gap: "0.5rem", padding: "0.5rem 1rem" }}>
+              <Link href={session.user.role === "OWNER" ? "/admin" : "/account"} className="btn btn-outline" style={{ display: "flex", alignItems: "center", gap: "0.5rem", padding: "0.5rem 1rem" }}>
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
                   <circle cx="12" cy="7" r="4"></circle>
                 </svg>
-                {session.user.role === "ADMIN" || session.user.role === "SUPER_ADMIN" ? "Dashboard" : "My Account"}
+                {session.user.role === "OWNER" ? "Owner Dashboard" : "My Account"}
               </Link>
             ) : (
               <Link href="/login" className="btn btn-outline" style={{ display: "flex", alignItems: "center", gap: "0.5rem", padding: "0.5rem 1rem" }}>

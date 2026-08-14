@@ -1,0 +1,67 @@
+.aboutHero {
+  padding: 6rem 2rem;
+  background-color: var(--bg-alt);
+  text-align: center;
+}
+
+.aboutHeroTitle {
+  font-size: clamp(2.5rem, 4vw, 4rem);
+  color: var(--primary-dark);
+  margin-bottom: 1rem;
+}
+
+.aboutHeroSubtitle {
+  font-size: 1.25rem;
+  color: var(--text-muted);
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.contentSection {
+  padding: 5rem 2rem;
+}
+
+.twoColumnGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 4rem;
+  align-items: center;
+}
+
+@media (min-width: 768px) {
+  .twoColumnGrid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.imagePlaceholder {
+  width: 100%;
+  aspect-ratio: 4/5;
+  background-color: var(--primary-light);
+  border-radius: var(--radius-lg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 1.5rem;
+  box-shadow: var(--shadow-lg);
+}
+
+.founderBox {
+  background-color: var(--bg-surface);
+  border: 1px solid var(--bg-alt);
+  padding: 2rem;
+  border-radius: var(--radius-md);
+  margin-top: 2rem;
+  box-shadow: var(--shadow-sm);
+}
+
+.founderBox h3 {
+  color: var(--primary);
+  margin-bottom: 0.5rem;
+}
+
+.founderBox p {
+  color: var(--text-muted);
+  margin-bottom: 0;
+}

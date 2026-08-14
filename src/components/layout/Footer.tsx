@@ -29,7 +29,7 @@ export default async function Footer() {
             className="btn"
             style={{ background: "white", color: "var(--primary)", fontWeight: "bold", padding: "0.75rem 2rem", fontSize: "1.1rem" }}
           >
-            @navae.in on Instagram
+            @ananta on Instagram
           </a>
         </div>
       </section>

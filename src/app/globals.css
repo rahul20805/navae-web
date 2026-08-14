@@ -230,3 +230,7 @@ button {
   grid-auto-rows: 10px;
   gap: 1.5rem;
 }
+
+.hover-bg-light:hover {
+  background-color: var(--bg-alt);
+}

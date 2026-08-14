@@ -26,14 +26,14 @@ export default function LoginPage() {
     if (res?.error) {
       setError("Invalid email or password");
     } else {
-      // Fetch session to determine role
-      const sessionRes = await fetch("/api/auth/session");
+      // Force fetch the latest session
+      const sessionRes = await fetch("/api/auth/session?update");
       const session = await sessionRes.json();
       
       if (session?.user?.role === "ADMIN" || session?.user?.role === "SUPER_ADMIN") {
-        router.push("/admin");
+        window.location.href = "/admin"; // Hard reload to clear Next.js client router cache
       } else {
-        router.push("/account");
+        window.location.href = "/account";
       }
     }
     

@@ -23,6 +23,7 @@ export default function Footer() {
           <ul className={styles.footerList}>
             <li><Link href="/about">About Us</Link></li>
             <li><Link href="/services">Services</Link></li>
+            <li><Link href="/faq">FAQ</Link></li>
             <li><Link href="/shop">Shop</Link></li>
             <li><Link href="/classes">Classes & Tuition</Link></li>
           </ul>

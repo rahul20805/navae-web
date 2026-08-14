@@ -43,11 +43,11 @@ export default function CartPage() {
 
       const options = {
         key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID || "rzp_test_dummy",
-        amount: orderRes.amount,
-        currency: orderRes.currency,
+        amount: orderRes.amount!,
+        currency: orderRes.currency!,
         name: "ANANTA",
         description: "Purchase from ANANTA Shop",
-        order_id: orderRes.orderId.startsWith("dummy") ? "" : orderRes.orderId,
+        order_id: orderRes.orderId!.startsWith("dummy") ? "" : orderRes.orderId!,
         handler: async function (response: any) {
           // Verify and create order in DB
           const dbRes = await createOrder({
@@ -74,7 +74,7 @@ export default function CartPage() {
         },
       };
 
-      if (orderRes.orderId.startsWith("dummy")) {
+      if (orderRes.orderId!.startsWith("dummy")) {
         // If dummy order, skip actual razorpay popup and just create order directly
         alert("Running in test mode without Razorpay keys. Skipping payment popup.");
         options.handler({ razorpay_payment_id: "pay_dummy_123" });

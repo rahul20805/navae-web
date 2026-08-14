@@ -3,15 +3,95 @@
 import { useCartStore } from "@/store/useCartStore";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { createRazorpayOrder } from "@/actions/payments";
+import { createOrder } from "@/actions/shop";
+import { useRouter } from "next/navigation";
 
 export default function CartPage() {
-  const { items, removeItem, updateQuantity, getTotal } = useCartStore();
+  const { items, removeItem, updateQuantity, getTotal, clearCart } = useCartStore();
   const [mounted, setMounted] = useState(false);
+  const [isCheckingOut, setIsCheckingOut] = useState(false);
+  const router = useRouter();
 
   // Avoid hydration errors with localStorage
   useEffect(() => {
     setMounted(true);
+    
+    // Load Razorpay script
+    const script = document.createElement("script");
+    script.src = "https://checkout.razorpay.com/v1/checkout.js";
+    script.async = true;
+    document.body.appendChild(script);
+    
+    return () => {
+      document.body.removeChild(script);
+    }
   }, []);
+
+  const handleCheckout = async () => {
+    setIsCheckingOut(true);
+    
+    try {
+      const amount = getTotal();
+      const orderRes = await createRazorpayOrder(amount);
+      
+      if (!orderRes.success) {
+        alert(orderRes.error || "Payment failed to initialize");
+        setIsCheckingOut(false);
+        return;
+      }
+
+      const options = {
+        key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID || "rzp_test_dummy",
+        amount: orderRes.amount,
+        currency: orderRes.currency,
+        name: "ANANTA",
+        description: "Purchase from ANANTA Shop",
+        order_id: orderRes.orderId.startsWith("dummy") ? "" : orderRes.orderId,
+        handler: async function (response: any) {
+          // Verify and create order in DB
+          const dbRes = await createOrder({
+            items,
+            totalAmount: amount,
+            shippingAddress: "To be filled", // In a full app, collect this in a form before payment
+            billingAddress: "To be filled",
+          });
+          
+          if (dbRes.success) {
+            clearCart();
+            alert("Payment successful! Your order has been placed.");
+            router.push("/shop");
+          } else {
+            alert("Payment succeeded but order creation failed. Please contact support.");
+          }
+        },
+        prefill: {
+          name: "Customer",
+          email: "customer@example.com",
+        },
+        theme: {
+          color: "#995b2e", // ANANTA primary color
+        },
+      };
+
+      if (orderRes.orderId.startsWith("dummy")) {
+        // If dummy order, skip actual razorpay popup and just create order directly
+        alert("Running in test mode without Razorpay keys. Skipping payment popup.");
+        options.handler({ razorpay_payment_id: "pay_dummy_123" });
+      } else {
+        const rzp = new (window as any).Razorpay(options);
+        rzp.on("payment.failed", function (response: any) {
+          alert("Payment failed: " + response.error.description);
+        });
+        rzp.open();
+      }
+    } catch (error) {
+      console.error(error);
+      alert("Something went wrong during checkout.");
+    } finally {
+      setIsCheckingOut(false);
+    }
+  };
 
   if (!mounted) return null;
 
@@ -64,9 +144,14 @@ export default function CartPage() {
               <span>Total</span>
               <span>₹{getTotal().toFixed(2)}</span>
             </div>
-            
-            <button className="btn btn-primary" style={{ width: "100%", padding: "1rem", fontSize: "1.1rem" }} onClick={() => alert("Checkout flow is under construction!")}>
-              Proceed to Checkout
+
+            <button 
+              className="btn btn-primary" 
+              style={{ width: "100%", padding: "1rem", fontSize: "1.1rem" }} 
+              onClick={handleCheckout}
+              disabled={isCheckingOut}
+            >
+              {isCheckingOut ? "Processing..." : "Proceed to Checkout"}
             </button>
           </div>
         </div>

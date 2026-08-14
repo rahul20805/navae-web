@@ -1,0 +1,84 @@
+.contactHero {
+  padding: 5rem 2rem;
+  background-color: var(--bg-alt);
+  text-align: center;
+}
+
+.contactGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 4rem;
+  padding: 5rem 0;
+}
+
+@media (min-width: 768px) {
+  .contactGrid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.contactInfoBox {
+  background-color: var(--bg-surface);
+  padding: 2.5rem;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  margin-bottom: 2rem;
+}
+
+.contactInfoBox h3 {
+  color: var(--primary);
+  margin-bottom: 1rem;
+}
+
+.infoItem {
+  margin-bottom: 1.5rem;
+}
+
+.infoItem h4 {
+  font-size: 1rem;
+  color: var(--text-main);
+  margin-bottom: 0.25rem;
+}
+
+.infoItem p {
+  color: var(--text-muted);
+  margin: 0;
+}
+
+.formGroup {
+  margin-bottom: 1.5rem;
+}
+
+.formLabel {
+  display: block;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+  color: var(--text-main);
+}
+
+.formInput, .formTextarea {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1px solid rgba(0,0,0,0.1);
+  border-radius: var(--radius-md);
+  font-family: inherit;
+  font-size: 1rem;
+  background-color: var(--bg-surface);
+  transition: border-color 0.2s ease;
+}
+
+@media (prefers-color-scheme: dark) {
+  .formInput, .formTextarea {
+    border-color: rgba(255,255,255,0.1);
+  }
+}
+
+.formInput:focus, .formTextarea:focus {
+  outline: none;
+  border-color: var(--primary);
+}
+
+.formTextarea {
+  resize: vertical;
+  min-height: 150px;
+}

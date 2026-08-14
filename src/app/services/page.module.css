@@ -1,0 +1,97 @@
+.hero {
+  padding: 6rem 2rem;
+  background-color: var(--bg-alt);
+  text-align: center;
+}
+
+.title {
+  font-size: clamp(2.5rem, 4vw, 4rem);
+  color: var(--primary-dark);
+  margin-bottom: 1rem;
+}
+
+.subtitle {
+  font-size: 1.25rem;
+  color: var(--text-muted);
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.section {
+  padding: 5rem 0;
+}
+
+.sectionAlt {
+  padding: 5rem 0;
+  background-color: var(--bg-surface);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 4rem;
+  align-items: center;
+}
+
+@media (min-width: 768px) {
+  .grid {
+    grid-template-columns: 1fr 1fr;
+  }
+  
+  .reverse {
+    direction: rtl;
+  }
+  
+  .reverse > * {
+    direction: ltr;
+  }
+}
+
+.content h2 {
+  color: var(--primary);
+  margin-bottom: 1.5rem;
+  font-size: 2.5rem;
+}
+
+.content p {
+  color: var(--text-muted);
+  margin-bottom: 1.5rem;
+  font-size: 1.1rem;
+}
+
+.featuresList {
+  list-style: none;
+  margin-bottom: 2rem;
+}
+
+.featuresList li {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+  font-weight: 500;
+}
+
+.featuresList li span {
+  color: var(--primary);
+  font-weight: bold;
+}
+
+.imageBox {
+  width: 100%;
+  aspect-ratio: 4/3;
+  background-color: var(--primary-light);
+  border-radius: var(--radius-lg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 1.25rem;
+  box-shadow: var(--shadow-md);
+}
+
+.ctaSection {
+  text-align: center;
+  padding: 6rem 2rem;
+  background: linear-gradient(135deg, var(--bg-main) 0%, var(--bg-alt) 100%);
+}

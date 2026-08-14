@@ -3,8 +3,8 @@ import styles from "./page.module.css";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "About Us | NAVAÉ Art & Craft",
-  description: "Learn about NAVAÉ Art & Craft, our founders Navya and Anant, and our journey in creating a premium Indian creative studio.",
+  title: "About Us | ANANTA",
+  description: "Learn about ANANTA, our founder Anant, and our journey in creating a premium Indian creative studio.",
 };
 
 export default function AboutPage() {
@@ -25,7 +25,7 @@ export default function AboutPage() {
             <div>
               <h2 className="text-primary" style={{ marginBottom: "1.5rem" }}>The Vision</h2>
               <p>
-                NAVAÉ Art & Craft was born from a passion for preserving and reimagining Indian arts. 
+                ANANTA was born from a passion for preserving and reimagining Indian arts. 
                 What started as a love for intricate Mehndi designs and handmade crafts has blossomed 
                 into a full-fledged creative studio that celebrates art in all its forms.
               </p>
@@ -36,28 +36,19 @@ export default function AboutPage() {
               </p>
 
               <div className={styles.founderBox}>
-                <h3>Navya</h3>
-                <p style={{ marginBottom: "1rem" }}><strong>Founder & Lead Artist</strong></p>
-                <p>
-                  With years of experience in Mehndi design, drawing, painting, and DIY crafts, 
-                  Navya is the creative heart of NAVAÉ. She also leads our dance and tuition classes, 
-                  inspiring the next generation of creatives.
-                </p>
-              </div>
-
-              <div className={styles.founderBox}>
                 <h3>Anant</h3>
-                <p style={{ marginBottom: "1rem" }}><strong>Co-Partner & Operations Head</strong></p>
+                <p style={{ marginBottom: "1rem" }}><strong>Founder & Creative Head</strong></p>
                 <p>
-                  The backbone of the business, Anant ensures everything runs smoothly. From digital 
-                  marketing to handling our customized and bulk orders seamlessly, Anant brings the 
-                  NAVAÉ vision to the world.
+                  With a deep passion for artistry and operations, Anant is the creative heart and 
+                  backbone of ANANTA. From conceptualizing beautiful designs to managing digital 
+                  marketing and handling customized bulk orders seamlessly, Anant brings the 
+                  vision to the world.
                 </p>
               </div>
             </div>
             <div>
               <div className={styles.imagePlaceholder}>
-                [Founders / Studio Photo]
+                [Founder / Studio Photo]
               </div>
             </div>
           </div>

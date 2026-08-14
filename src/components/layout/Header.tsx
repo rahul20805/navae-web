@@ -6,7 +6,7 @@ export default function Header() {
     <header className={styles.header}>
       <div className={`container ${styles.headerContainer}`}>
         <Link href="/" className={styles.logo}>
-          NAVAÉ
+          ANANTA
         </Link>
         <nav className={styles.nav}>
           <Link href="/about" className={styles.navLink}>About</Link>

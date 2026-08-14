@@ -6,13 +6,13 @@ export default function Footer() {
     <footer className={styles.footer}>
       <div className={`container ${styles.footerGrid}`}>
         <div>
-          <h3 className={styles.footerBrand}>NAVAÉ Art & Craft</h3>
+          <h3 className={styles.footerBrand}>ANANTA</h3>
           <p className={styles.footerDesc}>
             Create. Learn. Celebrate.<br/>
             Premium Indian creative studio for all your artistic needs.
           </p>
           <div className={styles.socials}>
-            <a href="https://instagram.com/navae.in" target="_blank" rel="noopener noreferrer">
+            <a href="https://instagram.com/ananta.studio" target="_blank" rel="noopener noreferrer">
               Instagram
             </a>
           </div>
@@ -48,7 +48,7 @@ export default function Footer() {
       
       <div className={styles.footerBottom}>
         <div className="container text-center">
-          <p>&copy; {new Date().getFullYear()} NAVAÉ Art & Craft. All rights reserved.</p>
+          <p>&copy; {new Date().getFullYear()} ANANTA. All rights reserved.</p>
         </div>
       </div>
     </footer>

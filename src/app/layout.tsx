@@ -4,7 +4,7 @@ import Footer from "@/components/layout/Footer";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "NAVAÉ Art & Craft | Create. Learn. Celebrate.",
+  title: "ANANTA | Create. Learn. Celebrate.",
   description: "Premium Indian creative studio offering Mehndi design, art & craft, dance tuition, DIY projects, custom products, and workshops.",
 };
 

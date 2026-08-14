@@ -60,8 +60,8 @@ export default function Home() {
             <div className={styles.aboutContent}>
               <h2 className={styles.aboutTitle}>Made With Heart.</h2>
               <p>
-                NAVAÉ Art & Craft is more than just a business; it's a creative sanctuary. 
-                Founded by Navya and managed alongside Anant, our studio brings together 
+                ANANTA is more than just a business; it's a creative sanctuary. 
+                Founded by Anant, our studio brings together 
                 traditional Indian artistry with modern aesthetics.
               </p>
               <p>
@@ -94,7 +94,7 @@ export default function Home() {
             <div className={styles.aboutImage}>
               {/* Placeholder for real brand imagery */}
               <div style={{ width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center", background: "var(--primary-light)", color: "white", fontSize: "1.5rem", fontStyle: "italic" }}>
-                NAVAÉ Studio
+                ANANTA Studio
               </div>
             </div>
           </div>

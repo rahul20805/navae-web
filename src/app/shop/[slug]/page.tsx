@@ -2,6 +2,7 @@ import { prisma } from "@/lib/prisma";
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import ProductCustomizer from "@/components/shop/ProductCustomizer";
+import ReviewSection from "@/components/shop/ReviewSection";
 import Link from "next/link";
 import { Metadata } from "next";
 
@@ -16,7 +17,13 @@ export async function generateMetadata({ params }: { params: { slug: string } })
 export default async function ProductDetailPage({ params }: { params: { slug: string } }) {
   const product = await prisma.product.findUnique({
     where: { slug: params.slug },
-    include: { category: true }
+    include: { 
+      category: true,
+      reviews: {
+        where: { isApproved: true },
+        orderBy: { createdAt: 'desc' }
+      }
+    }
   });
 
   if (!product || !product.isPublished) {
@@ -100,6 +107,8 @@ export default async function ProductDetailPage({ params }: { params: { slug: st
           </div>
         </div>
       </div>
+
+      <ReviewSection productId={product.id} reviews={product.reviews} />
     </main>
   );
 }

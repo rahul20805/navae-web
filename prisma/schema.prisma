@@ -99,23 +99,24 @@ model Category {
 }
 
 model Product {
-  id              String   @id @default(cuid())
+  id              String      @id @default(cuid())
   name            String
-  slug            String   @unique
-  description     String?  @db.Text
+  slug            String      @unique
+  description     String?     @db.Text
   price           Float
   discountPrice   Float?
-  stock           Int      @default(0)
+  stock           Int         @default(0)
   images          String[]
-  isAvailable     Boolean  @default(true)
-  isPublished     Boolean  @default(true)
+  isAvailable     Boolean     @default(true)
+  isPublished     Boolean     @default(true)
   variants        Json?    // e.g. [{ name: "Size", options: ["S", "M", "L"] }]
-  customization   Boolean  @default(false)
+  customization   Boolean     @default(false)
   categoryId      String?
-  category        Category? @relation(fields: [categoryId], references: [id], onDelete: SetNull)
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
+  category        Category?   @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
   orderItems      OrderItem[]
+  reviews         Review[]
 }
 
 model Order {
@@ -230,6 +231,8 @@ model Review {
   text      String   @db.Text
   image     String?
   isApproved Boolean @default(false)
+  productId String?
+  product   Product? @relation(fields: [productId], references: [id], onDelete: Cascade)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }

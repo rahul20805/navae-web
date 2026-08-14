@@ -17,55 +17,73 @@ export default async function Footer() {
   const address = settings.physicalAddress || "Varanasi, India";
 
   return (
-    <footer className={styles.footer}>
-      <div className={`container ${styles.footerGrid}`}>
-        <div>
-          <h3 className={styles.footerBrand}>{brandName}</h3>
-          <p className={styles.footerDesc} style={{ whiteSpace: "pre-line" }}>
-            {desc.slice(0, 100)}{desc.length > 100 ? "..." : ""}
-          </p>
-          <div className={styles.socials}>
-            <a href={insta} target="_blank" rel="noopener noreferrer">
-              Instagram
-            </a>
+    <>
+      <section style={{ background: "var(--primary)", color: "white", padding: "4rem 1rem", textAlign: "center" }}>
+        <div className="container">
+          <h2 style={{ fontSize: "2rem", marginBottom: "1rem", color: "var(--secondary-light)" }}>Follow ANANTA ART & CRAFT</h2>
+          <p style={{ fontSize: "1.2rem", marginBottom: "2rem", opacity: 0.9 }}>Join our creative community and see our latest creations.</p>
+          <a 
+            href={insta} 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            className="btn"
+            style={{ background: "white", color: "var(--primary)", fontWeight: "bold", padding: "0.75rem 2rem", fontSize: "1.1rem" }}
+          >
+            @navae.in on Instagram
+          </a>
+        </div>
+      </section>
+
+      <footer className={styles.footer}>
+        <div className={`container ${styles.footerGrid}`}>
+          <div>
+            <h3 className={styles.footerBrand}>{brandName}</h3>
+            <p className={styles.footerDesc} style={{ whiteSpace: "pre-line" }}>
+              {desc.slice(0, 100)}{desc.length > 100 ? "..." : ""}
+            </p>
+          </div>
+          
+          <div>
+            <h4 className={styles.footerHeading}>Quick Links</h4>
+            <ul className={styles.footerList}>
+              <li><Link href="/about">About Us</Link></li>
+              <li><Link href="/services">Services</Link></li>
+              <li><Link href="/faq">FAQ</Link></li>
+              <li><Link href="/shop">Shop</Link></li>
+              <li><Link href="/classes">Classes & Tuition</Link></li>
+            </ul>
+          </div>
+          
+          <div>
+            <h4 className={styles.footerHeading}>Legal</h4>
+            <ul className={styles.footerList}>
+              <li><Link href="/privacy">Privacy Policy</Link></li>
+              <li><Link href="/terms">Terms of Service</Link></li>
+              <li><Link href="/refunds">Refund Policy</Link></li>
+            </ul>
+          </div>
+          
+          <div>
+            <h4 className={styles.footerHeading}>Contact</h4>
+            <ul className={styles.footerList}>
+              <li><strong>Email:</strong> {email}</li>
+              <li><strong>WhatsApp:</strong> {phone}</li>
+              <li><strong>Location:</strong> {address}</li>
+              <li style={{ marginTop: "1rem" }}>
+                <a href={`https://wa.me/${phone.replace(/[^0-9]/g, '')}`} target="_blank" rel="noopener noreferrer" style={{ color: "var(--primary)", fontWeight: "bold", textDecoration: "underline" }}>
+                  Chat with us
+                </a>
+              </li>
+            </ul>
           </div>
         </div>
         
-        <div>
-          <h4 className={styles.footerHeading}>Quick Links</h4>
-          <ul className={styles.footerList}>
-            <li><Link href="/about">About Us</Link></li>
-            <li><Link href="/services">Services</Link></li>
-            <li><Link href="/faq">FAQ</Link></li>
-            <li><Link href="/shop">Shop</Link></li>
-            <li><Link href="/classes">Classes & Tuition</Link></li>
-          </ul>
+        <div className={styles.footerBottom}>
+          <div className="container text-center">
+            <p>&copy; {new Date().getFullYear()} {brandName}. All rights reserved.</p>
+          </div>
         </div>
-        
-        <div>
-          <h4 className={styles.footerHeading}>Legal</h4>
-          <ul className={styles.footerList}>
-            <li><Link href="/privacy">Privacy Policy</Link></li>
-            <li><Link href="/terms">Terms of Service</Link></li>
-            <li><Link href="/refunds">Refund Policy</Link></li>
-          </ul>
-        </div>
-        
-        <div>
-          <h4 className={styles.footerHeading}>Contact</h4>
-          <ul className={styles.footerList}>
-            <li>Email: {email}</li>
-            <li>Phone: {phone}</li>
-            <li>Location: {address}</li>
-          </ul>
-        </div>
-      </div>
-      
-      <div className={styles.footerBottom}>
-        <div className="container text-center">
-          <p>&copy; {new Date().getFullYear()} {brandName}. All rights reserved.</p>
-        </div>
-      </div>
-    </footer>
+      </footer>
+    </>
   );
 }

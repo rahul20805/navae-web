@@ -2,6 +2,7 @@ import { prisma } from "@/lib/prisma";
 import HeroSection from "@/components/home/HeroSection";
 import CategoryCards from "@/components/home/CategoryCards";
 import ProductCarousel from "@/components/home/ProductCarousel";
+import AIGallery from "@/components/home/AIGallery";
 import Link from "next/link";
 
 export const revalidate = 60; // Revalidate every minute
@@ -51,6 +52,12 @@ export default async function HomePage() {
       <ProductCarousel title="Handmade Gift Collection" products={recentProducts} />
 
       <section className="section bg-alt">
+        <div className="container">
+          <AIGallery />
+        </div>
+      </section>
+
+      <section className="section">
         <div className="container">
           <CategoryCards title="Shop by Recipient" items={recipientCategories} />
         </div>

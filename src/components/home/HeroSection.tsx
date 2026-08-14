@@ -4,7 +4,7 @@ import Image from "next/image";
 export default function HeroSection({ content }: { content?: any }) {
   const title = content?.title || "Handmade. Personal. Unforgettable.";
   const subtitle = content?.subtitle || "Beautiful handmade creations, personalized gifts and creative experiences made specially for your special moments.";
-  const imageUrl = content?.imageUrl || "https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&q=80";
+  const imageUrl = content?.imageUrl || "/images/hero_banner.jpg";
 
   return (
     <section style={{ position: "relative", minHeight: "80vh", display: "flex", alignItems: "center", justifyContent: "center", overflow: "hidden" }}>

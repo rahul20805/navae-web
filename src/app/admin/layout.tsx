@@ -13,8 +13,8 @@ export default async function AdminLayout({ children }: { children: React.ReactN
   return (
     <div className={styles.adminContainer}>
       <aside className={styles.adminSidebar}>
-        <div className={styles.sidebarHeader}>
-          <h2>ANANTA Admin</h2>
+        <div className={styles.sidebarHeader} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '1rem' }}>
+          <img src="/images/logo.jpg" alt="ANANTA Admin" style={{ height: "45px", width: "auto", mixBlendMode: "multiply", borderRadius: "4px" }} />
         </div>
         <nav className={styles.sidebarNav}>
           <Link href="/admin" className={styles.navItem}>Dashboard</Link>

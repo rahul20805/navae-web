@@ -1,5 +1,8 @@
 import { prisma } from "@/lib/prisma";
 
+import AIGallery from "@/components/home/AIGallery";
+import Image from "next/image";
+
 export default async function AdminDashboardPage() {
   const productsCount = await prisma.product.count();
   const classesCount = await prisma.class.count();
@@ -9,9 +12,14 @@ export default async function AdminDashboardPage() {
 
   return (
     <div>
-      <h1 className="text-primary" style={{ marginBottom: "2rem" }}>Dashboard Overview</h1>
+      <div style={{ position: "relative", width: "100%", height: "200px", borderRadius: "12px", overflow: "hidden", marginBottom: "2rem" }}>
+        <Image src="/images/hero_banner.jpg" alt="ANANTA Admin Banner" fill style={{ objectFit: "cover" }} priority />
+        <div style={{ position: "absolute", inset: 0, background: "rgba(0,0,0,0.4)", display: "flex", alignItems: "center", padding: "2rem" }}>
+          <h1 style={{ color: "white", margin: 0, textShadow: "0 2px 4px rgba(0,0,0,0.5)" }}>Dashboard Overview</h1>
+        </div>
+      </div>
       
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: "1.5rem" }}>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: "1.5rem", marginBottom: "3rem" }}>
         
         <div className="card" style={{ padding: "1.5rem", textAlign: "center" }}>
           <h3 style={{ color: "var(--text-muted)", fontSize: "1rem", marginBottom: "0.5rem" }}>Total Products</h3>
@@ -38,6 +46,11 @@ export default async function AdminDashboardPage() {
           <div style={{ fontSize: "2.5rem", fontWeight: "bold", color: "var(--primary)" }}>{enquiriesCount}</div>
         </div>
 
+      </div>
+
+      <div className="card" style={{ padding: "1.5rem" }}>
+        <h2 style={{ marginBottom: "1rem" }}>Gallery Preview</h2>
+        <AIGallery />
       </div>
     </div>
   );

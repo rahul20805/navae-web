@@ -28,8 +28,8 @@ export default function Header() {
   return (
     <header className={`${styles.header} ${isScrolled ? "glass" : ""}`} style={{ position: "sticky", top: 0, zIndex: 100, transition: "all 0.3s ease" }}>
       <div className={`container ${styles.headerContainer}`}>
-        <Link href="/" className={styles.logo} style={{ fontFamily: "var(--font-heading)", fontSize: "1.5rem", fontWeight: "700", letterSpacing: "2px", color: "var(--primary-dark)" }}>
-          ANANTA
+        <Link href="/" className={styles.logo} style={{ display: "flex", alignItems: "center" }}>
+          <img src="/images/logo.jpg" alt="ANANTA" style={{ height: "40px", width: "auto", mixBlendMode: "multiply", borderRadius: "4px" }} />
         </Link>
         
         <nav className={styles.desktopNav}>

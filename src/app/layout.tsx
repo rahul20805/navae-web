@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { AuthProvider } from "@/components/providers/AuthProvider";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import MobileNav from "@/components/layout/MobileNav";
@@ -18,11 +19,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <Header />
-        {children}
-        <Footer />
-        <MobileNav />
-        <WhatsAppButton />
+        <AuthProvider>
+          <Header />
+          {children}
+          <Footer />
+          <MobileNav />
+          <WhatsAppButton />
+        </AuthProvider>
       </body>
     </html>
   );

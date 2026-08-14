@@ -1,5 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import HeroSection from "@/components/home/HeroSection";
+import GiftFinder from "@/components/home/GiftFinder";
 import CategoryCards from "@/components/home/CategoryCards";
 import ProductCarousel from "@/components/home/ProductCarousel";
 import AIGallery from "@/components/home/AIGallery";
@@ -47,6 +48,8 @@ export default async function HomePage() {
     <main>
       <HeroSection content={heroContent?.content} />
       
+      <GiftFinder />
+
       <CategoryCards title="Shop by Occasion" items={occasionCategories} />
       
       <ProductCarousel title="Handmade Gift Collection" products={recentProducts} />

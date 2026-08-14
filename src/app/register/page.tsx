@@ -30,7 +30,7 @@ export default function RegisterPage() {
       if (signInRes?.error) {
         setError("Account created but failed to login automatically.");
       } else {
-        router.push("/admin"); // The first user will be an admin
+        window.location.href = "/account";
       }
     } else {
       setError(res.error || "Failed to register");

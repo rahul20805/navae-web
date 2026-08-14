@@ -12,7 +12,7 @@ export default async function AccountPage() {
   const session = await auth();
   
   if (!session?.user) {
-    redirect("/api/auth/signin?callbackUrl=/account");
+    redirect("/login?callbackUrl=/account");
   }
 
   const user = await prisma.user.findUnique({

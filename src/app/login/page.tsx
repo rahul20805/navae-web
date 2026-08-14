@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { signIn } from "next-auth/react";
+import { signIn, getSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 
@@ -26,12 +26,11 @@ export default function LoginPage() {
     if (res?.error) {
       setError("Invalid email or password");
     } else {
-      // Force fetch the latest session
-      const sessionRes = await fetch("/api/auth/session?update");
-      const session = await sessionRes.json();
+      // Fetch session properly using NextAuth client method
+      const session = await getSession();
       
       if (session?.user?.role === "ADMIN" || session?.user?.role === "SUPER_ADMIN") {
-        window.location.href = "/admin"; // Hard reload to clear Next.js client router cache
+        window.location.href = "/admin"; 
       } else {
         window.location.href = "/account";
       }

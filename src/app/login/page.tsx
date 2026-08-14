@@ -25,18 +25,12 @@ export default function LoginPage() {
 
     if (res?.error) {
       setError("Invalid email or password");
+      setLoading(false);
     } else {
-      // Fetch session properly using NextAuth client method
-      const session = await getSession();
-      
-      if (session?.user?.role === "ADMIN" || session?.user?.role === "SUPER_ADMIN") {
-        window.location.href = "/admin"; 
-      } else {
-        window.location.href = "/account";
-      }
+      // The secure cookie is now set by the browser. 
+      // Force a hard navigation to the account page, which will server-side route Admins to /admin.
+      window.location.href = "/account";
     }
-    
-    setLoading(false);
   };
 
   return (

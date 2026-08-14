@@ -15,6 +15,10 @@ export default async function AccountPage() {
     redirect("/login?callbackUrl=/account");
   }
 
+  if (session.user.role === "ADMIN" || session.user.role === "SUPER_ADMIN") {
+    redirect("/admin");
+  }
+
   const user = await prisma.user.findUnique({
     where: { id: session.user.id },
     include: {

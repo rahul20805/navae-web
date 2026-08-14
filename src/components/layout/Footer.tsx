@@ -1,18 +1,31 @@
 import Link from "next/link";
 import styles from "./Footer.module.css";
+import { prisma } from "@/lib/prisma";
 
-export default function Footer() {
+export default async function Footer() {
+  const settingsData = await prisma.setting.findMany();
+  const settings = settingsData.reduce((acc, curr) => {
+    acc[curr.key] = curr.value;
+    return acc;
+  }, {} as Record<string, string>);
+
+  const brandName = settings.businessName || "ANANTA";
+  const desc = settings.aboutText || "Create. Learn. Celebrate.\nPremium Indian creative studio for all your artistic needs.";
+  const insta = settings.instagramUrl || "https://instagram.com/infiny.pvt";
+  const email = settings.emailAddress || "anyanant7115@gmail.com";
+  const phone = settings.whatsappNumber || "+91 7379609531";
+  const address = settings.physicalAddress || "Varanasi, India";
+
   return (
     <footer className={styles.footer}>
       <div className={`container ${styles.footerGrid}`}>
         <div>
-          <h3 className={styles.footerBrand}>ANANTA</h3>
-          <p className={styles.footerDesc}>
-            Create. Learn. Celebrate.<br/>
-            Premium Indian creative studio for all your artistic needs.
+          <h3 className={styles.footerBrand}>{brandName}</h3>
+          <p className={styles.footerDesc} style={{ whiteSpace: "pre-line" }}>
+            {desc.slice(0, 100)}{desc.length > 100 ? "..." : ""}
           </p>
           <div className={styles.socials}>
-            <a href="https://instagram.com/infiny.pvt" target="_blank" rel="noopener noreferrer">
+            <a href={insta} target="_blank" rel="noopener noreferrer">
               Instagram
             </a>
           </div>
@@ -41,16 +54,16 @@ export default function Footer() {
         <div>
           <h4 className={styles.footerHeading}>Contact</h4>
           <ul className={styles.footerList}>
-            <li>Email: anyanant7115@gmail.com</li>
-            <li>Phone: +91 7379609531</li>
-            <li>Location: Varanasi, India</li>
+            <li>Email: {email}</li>
+            <li>Phone: {phone}</li>
+            <li>Location: {address}</li>
           </ul>
         </div>
       </div>
       
       <div className={styles.footerBottom}>
         <div className="container text-center">
-          <p>&copy; {new Date().getFullYear()} ANANTA. All rights reserved.</p>
+          <p>&copy; {new Date().getFullYear()} {brandName}. All rights reserved.</p>
         </div>
       </div>
     </footer>

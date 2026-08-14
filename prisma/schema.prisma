@@ -99,19 +99,23 @@ model Category {
 }
 
 model Product {
-  id          String   @id @default(cuid())
-  name        String
-  slug        String   @unique
-  description String?  @db.Text
-  price       Float
-  stock       Int      @default(0)
-  images      String[]
-  isAvailable Boolean  @default(true)
-  categoryId  String?
-  category    Category? @relation(fields: [categoryId], references: [id], onDelete: SetNull)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  orderItems  OrderItem[]
+  id              String   @id @default(cuid())
+  name            String
+  slug            String   @unique
+  description     String?  @db.Text
+  price           Float
+  discountPrice   Float?
+  stock           Int      @default(0)
+  images          String[]
+  isAvailable     Boolean  @default(true)
+  isPublished     Boolean  @default(true)
+  variants        Json?    // e.g. [{ name: "Size", options: ["S", "M", "L"] }]
+  customization   Boolean  @default(false)
+  categoryId      String?
+  category        Category? @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  orderItems      OrderItem[]
 }
 
 model Order {
@@ -147,6 +151,7 @@ model Service {
   image       String?
   features    String[]
   isActive    Boolean  @default(true)
+  isPublished Boolean  @default(true)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 }
@@ -163,6 +168,7 @@ model Class {
   price       Float?
   maxStudents Int?
   isActive    Boolean  @default(true)
+  isPublished Boolean  @default(true)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
   bookings    Booking[]
@@ -193,6 +199,53 @@ model Enquiry {
   userId    String?
   user      User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
   status    String   @default("NEW") // NEW, IN_PROGRESS, RESOLVED
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Setting {
+  id        String   @id @default(cuid())
+  key       String   @unique
+  value     String   @db.Text
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model WebsiteContent {
+  id        String   @id @default(cuid())
+  section   String   @unique // e.g. "hero_banner", "about_us"
+  content   Json
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Review {
+  id        String   @id @default(cuid())
+  author    String
+  rating    Int      @default(5)
+  text      String   @db.Text
+  image     String?
+  isApproved Boolean @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Gallery {
+  id        String   @id @default(cuid())
+  title     String?
+  url       String
+  category  String?
+  isPublished Boolean @default(true)
+  createdAt DateTime @default(now())
+}
+
+model FAQ {
+  id        String   @id @default(cuid())
+  question  String
+  answer    String   @db.Text
+  category  String?
+  order     Int      @default(0)
+  isActive  Boolean  @default(true)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }

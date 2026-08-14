@@ -6,7 +6,7 @@ import { auth } from "@/auth";
 export async function getProducts() {
   try {
     return await prisma.product.findMany({
-      where: { isAvailable: true },
+      where: { isAvailable: true, isPublished: true },
       include: { category: true },
       orderBy: { createdAt: "desc" },
     });

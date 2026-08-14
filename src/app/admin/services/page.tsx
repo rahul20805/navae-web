@@ -1,16 +1,16 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { getClasses, createClass, updateClass, deleteClass } from "@/actions/classes";
+import { getServices, createService, updateService, deleteService } from "@/actions/services";
 import ImageUpload from "@/components/admin/ImageUpload";
 
-export default function ClassesPage() {
+export default function ServicesPage() {
   const [items, setItems] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [editId, setEditId] = useState<string | null>(null);
   
-  const [formData, setFormData] = useState({ title: "", description: "", image: "", price: "", instructor: "", schedule: "", duration: "", maxStudents: "", isPublished: true });
+  const [formData, setFormData] = useState({ title: "", description: "", image: "", isPublished: true });
   const [saving, setSaving] = useState(false);
 
   useEffect(() => {
@@ -19,7 +19,7 @@ export default function ClassesPage() {
 
   async function loadData() {
     setLoading(true);
-    const data = await getClasses();
+    const data = await getServices();
     setItems(data);
     setLoading(false);
   }
@@ -27,20 +27,10 @@ export default function ClassesPage() {
   const handleOpenModal = (item?: any) => {
     if (item) {
       setEditId(item.id);
-      setFormData({ 
-        title: item.title, 
-        description: item.description || "", 
-        image: item.image || "", 
-        price: item.price ? String(item.price) : "",
-        instructor: item.instructor || "",
-        schedule: item.schedule || "",
-        duration: item.duration || "",
-        maxStudents: item.maxStudents ? String(item.maxStudents) : "",
-        isPublished: item.isPublished 
-      });
+      setFormData({ title: item.title, description: item.description || "", image: item.image || "", isPublished: item.isPublished });
     } else {
       setEditId(null);
-      setFormData({ title: "", description: "", image: "", price: "", instructor: "", schedule: "", duration: "", maxStudents: "", isPublished: true });
+      setFormData({ title: "", description: "", image: "", isPublished: true });
     }
     setShowModal(true);
   };
@@ -55,9 +45,9 @@ export default function ClassesPage() {
     setSaving(true);
     
     if (editId) {
-      await updateClass(editId, formData);
+      await updateService(editId, formData);
     } else {
-      await createClass(formData);
+      await createService(formData);
     }
     
     setSaving(false);
@@ -66,8 +56,8 @@ export default function ClassesPage() {
   };
 
   const handleDelete = async (id: string) => {
-    if (confirm("Are you sure you want to delete this class/workshop?")) {
-      await deleteClass(id);
+    if (confirm("Are you sure you want to delete this service?")) {
+      await deleteService(id);
       loadData();
     }
   };
@@ -75,12 +65,12 @@ export default function ClassesPage() {
   return (
     <div>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "2rem" }}>
-        <h1 className="text-primary">Classes & Workshops</h1>
-        <button className="btn btn-primary" onClick={() => handleOpenModal()}>+ Add Class</button>
+        <h1 className="text-primary">Services Management</h1>
+        <button className="btn btn-primary" onClick={() => handleOpenModal()}>+ Add Service</button>
       </div>
 
       {loading ? (
-        <div>Loading classes...</div>
+        <div>Loading services...</div>
       ) : (
         <div className="card" style={{ padding: "1rem", overflowX: "auto" }}>
           <table style={{ width: "100%", borderCollapse: "collapse" }}>
@@ -88,7 +78,6 @@ export default function ClassesPage() {
               <tr style={{ borderBottom: "2px solid #eee", textAlign: "left" }}>
                 <th style={{ padding: "1rem" }}>Image</th>
                 <th style={{ padding: "1rem" }}>Title</th>
-                <th style={{ padding: "1rem" }}>Price</th>
                 <th style={{ padding: "1rem" }}>Status</th>
                 <th style={{ padding: "1rem" }}>Actions</th>
               </tr>
@@ -99,8 +88,7 @@ export default function ClassesPage() {
                   <td style={{ padding: "1rem" }}>
                     {item.image ? <img src={item.image} alt={item.title} style={{ width: "50px", height: "50px", objectFit: "cover", borderRadius: "4px" }} /> : "No Image"}
                   </td>
-                  <td style={{ padding: "1rem" }}><strong>{item.title}</strong></td>
-                  <td style={{ padding: "1rem" }}>{item.price ? `₹${item.price}` : "Free / Enquire"}</td>
+                  <td style={{ padding: "1rem" }}><strong>{item.title}</strong><br/><small style={{color: "#666"}}>{item.slug}</small></td>
                   <td style={{ padding: "1rem" }}>
                     <span style={{ padding: "0.25rem 0.5rem", borderRadius: "4px", background: item.isPublished ? "#d4edda" : "#f8d7da", color: item.isPublished ? "#155724" : "#721c24", fontSize: "0.85rem" }}>
                       {item.isPublished ? "Published" : "Hidden"}
@@ -114,7 +102,7 @@ export default function ClassesPage() {
               ))}
               {items.length === 0 && (
                 <tr>
-                  <td colSpan={5} style={{ padding: "2rem", textAlign: "center" }}>No classes found. Create one!</td>
+                  <td colSpan={4} style={{ padding: "2rem", textAlign: "center" }}>No services found. Create one!</td>
                 </tr>
               )}
             </tbody>
@@ -124,8 +112,8 @@ export default function ClassesPage() {
 
       {showModal && (
         <div style={{ position: "fixed", top: 0, left: 0, right: 0, bottom: 0, background: "rgba(0,0,0,0.5)", display: "flex", alignItems: "center", justifyContent: "center", zIndex: 1000 }}>
-          <div className="card" style={{ padding: "2rem", width: "100%", maxWidth: "600px", background: "white", maxHeight: "90vh", overflowY: "auto" }}>
-            <h2>{editId ? "Edit Class" : "Add Class"}</h2>
+          <div className="card" style={{ padding: "2rem", width: "100%", maxWidth: "500px", background: "white", maxHeight: "90vh", overflowY: "auto" }}>
+            <h2>{editId ? "Edit Service" : "Add Service"}</h2>
             <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "1rem", marginTop: "1.5rem" }}>
               <div>
                 <label style={{ display: "block", marginBottom: "0.5rem" }}>Title *</label>
@@ -135,26 +123,6 @@ export default function ClassesPage() {
                 <label style={{ display: "block", marginBottom: "0.5rem" }}>Description</label>
                 <textarea value={formData.description} onChange={(e) => setFormData({ ...formData, description: e.target.value })} style={{ width: "100%", padding: "0.75rem", border: "1px solid #ddd", borderRadius: "4px", minHeight: "80px" }} />
               </div>
-              
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1rem" }}>
-                <div>
-                  <label style={{ display: "block", marginBottom: "0.5rem" }}>Price (₹)</label>
-                  <input type="number" step="0.01" value={formData.price} onChange={(e) => setFormData({ ...formData, price: e.target.value })} style={{ width: "100%", padding: "0.75rem", border: "1px solid #ddd", borderRadius: "4px" }} placeholder="Leave empty if free" />
-                </div>
-                <div>
-                  <label style={{ display: "block", marginBottom: "0.5rem" }}>Instructor</label>
-                  <input type="text" value={formData.instructor} onChange={(e) => setFormData({ ...formData, instructor: e.target.value })} style={{ width: "100%", padding: "0.75rem", border: "1px solid #ddd", borderRadius: "4px" }} />
-                </div>
-                <div>
-                  <label style={{ display: "block", marginBottom: "0.5rem" }}>Schedule (e.g. Mon, Wed 5PM)</label>
-                  <input type="text" value={formData.schedule} onChange={(e) => setFormData({ ...formData, schedule: e.target.value })} style={{ width: "100%", padding: "0.75rem", border: "1px solid #ddd", borderRadius: "4px" }} />
-                </div>
-                <div>
-                  <label style={{ display: "block", marginBottom: "0.5rem" }}>Duration</label>
-                  <input type="text" value={formData.duration} onChange={(e) => setFormData({ ...formData, duration: e.target.value })} style={{ width: "100%", padding: "0.75rem", border: "1px solid #ddd", borderRadius: "4px" }} />
-                </div>
-              </div>
-
               <div>
                 <label style={{ display: "block", marginBottom: "0.5rem" }}>Image</label>
                 <ImageUpload value={formData.image} onChange={(url) => setFormData({ ...formData, image: url as string })} />
@@ -162,7 +130,7 @@ export default function ClassesPage() {
               <div>
                 <label style={{ display: "flex", alignItems: "center", gap: "0.5rem", cursor: "pointer" }}>
                   <input type="checkbox" checked={formData.isPublished} onChange={(e) => setFormData({ ...formData, isPublished: e.target.checked })} />
-                  Publish Class to Website
+                  Publish Service to Website
                 </label>
               </div>
               

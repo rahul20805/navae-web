@@ -4,7 +4,7 @@ import { prisma } from "@/lib/prisma";
 
 export default async function Footer() {
   const settingsData = await prisma.setting.findMany();
-  const settings = settingsData.reduce((acc, curr) => {
+  const settings = settingsData.reduce((acc: Record<string, string>, curr: { key: string, value: string }) => {
     acc[curr.key] = curr.value;
     return acc;
   }, {} as Record<string, string>);

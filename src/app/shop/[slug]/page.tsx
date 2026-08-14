@@ -49,7 +49,7 @@ export default async function ProductDetailPage({ params }: { params: { slug: st
           
           {product.images.length > 1 && (
             <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "1rem" }}>
-              {product.images.slice(1).map((img, i) => (
+              {product.images.slice(1).map((img: string, i: number) => (
                 <div key={i} style={{ position: "relative", aspectRatio: "1/1", borderRadius: "var(--radius-md)", overflow: "hidden" }}>
                   <Image src={img} alt={`${product.name} ${i+2}`} fill style={{ objectFit: "cover" }} />
                 </div>

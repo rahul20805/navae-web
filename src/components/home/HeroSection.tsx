@@ -7,38 +7,42 @@ export default function HeroSection({ content }: { content?: any }) {
   const imageUrl = content?.imageUrl || "/images/hero_banner.jpg";
 
   return (
-    <section style={{ position: "relative", minHeight: "80vh", display: "flex", alignItems: "center", justifyContent: "center", overflow: "hidden" }}>
-      {/* Background Image */}
-      <div style={{ position: "absolute", inset: 0, zIndex: -1 }}>
-        <Image 
-          src={imageUrl} 
-          alt="ANANTA Hero Background" 
-          fill 
-          style={{ objectFit: "cover", filter: "brightness(0.6)" }} 
-          priority
-        />
-      </div>
-
-      <div className="container animate-fade-in" style={{ textAlign: "center", color: "var(--text-light)", padding: "2rem", zIndex: 10 }}>
-        <h1 style={{ color: "var(--secondary)", textShadow: "2px 2px 8px rgba(0,0,0,0.5)", marginBottom: "1.5rem" }}>
-          {title}
-        </h1>
-        <p style={{ fontSize: "clamp(1.1rem, 2vw, 1.5rem)", maxWidth: "800px", margin: "0 auto 3rem auto", textShadow: "1px 1px 4px rgba(0,0,0,0.5)", fontWeight: 300, letterSpacing: "0.5px" }}>
-          {subtitle}
-        </p>
+    <section style={{ backgroundColor: "var(--bg-main)", minHeight: "80vh", display: "flex", alignItems: "center", position: "relative", overflow: "hidden", padding: "6rem 0" }}>
+      <div className="container" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "4rem", alignItems: "center" }}>
         
-        <div style={{ display: "flex", gap: "1rem", justifyContent: "center", flexWrap: "wrap" }}>
-          <Link href="/shop" className="btn btn-primary" style={{ padding: "1rem 2.5rem", fontSize: "1.1rem", background: "var(--secondary)", color: "var(--text-main)" }}>
-            Shop Now
-          </Link>
-          <Link href="/shop?custom=true" className="btn btn-secondary" style={{ padding: "1rem 2.5rem", fontSize: "1.1rem", borderColor: "var(--text-light)", color: "var(--text-light)" }}>
-            Create Custom Gift
-          </Link>
-          <Link href="/services" className="btn btn-secondary" style={{ padding: "1rem 2.5rem", fontSize: "1.1rem", borderColor: "var(--text-light)", color: "var(--text-light)" }}>
-            Book a Service
-          </Link>
+        {/* Text Content */}
+        <div className="animate-fade-in" style={{ zIndex: 10 }}>
+          <h1 style={{ color: "var(--primary)", marginBottom: "1.5rem", fontSize: "clamp(3rem, 5vw, 4.5rem)", lineHeight: 1.1 }}>
+            {title}
+          </h1>
+          <p style={{ fontSize: "1.25rem", color: "var(--text-muted)", marginBottom: "3rem", fontWeight: 400, lineHeight: 1.6 }}>
+            {subtitle}
+          </p>
+          
+          <div style={{ display: "flex", gap: "1rem", flexWrap: "wrap" }}>
+            <Link href="/shop" className="btn btn-primary" style={{ padding: "1.1rem 2.5rem", fontSize: "1.1rem" }}>
+              Shop Handmade Gifts
+            </Link>
+            <Link href="/custom-gift" className="btn btn-secondary" style={{ padding: "1.1rem 2.5rem", fontSize: "1.1rem", borderColor: "var(--primary)", color: "var(--primary)" }}>
+              Create a Custom Gift
+            </Link>
+          </div>
+        </div>
+
+        {/* Image Content */}
+        <div className="animate-fade-in" style={{ position: "relative", height: "600px", borderRadius: "var(--radius-xl)", overflow: "hidden", boxShadow: "var(--shadow-lg)" }}>
+          <Image 
+            src={imageUrl} 
+            alt="ANANTA Hero Imagery" 
+            fill 
+            style={{ objectFit: "cover" }} 
+            priority
+          />
         </div>
       </div>
+      
+      {/* Decorative Blur Element */}
+      <div style={{ position: "absolute", top: "-10%", right: "-5%", width: "50%", height: "50%", background: "var(--secondary-light)", filter: "blur(150px)", opacity: 0.15, zIndex: 1, pointerEvents: "none" }}></div>
     </section>
   );
 }

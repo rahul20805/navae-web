@@ -22,6 +22,7 @@ export default function Header() {
   const navLinks = [
     { href: "/", label: "Home" },
     { href: "/shop", label: "Shop" },
+    { href: "/custom-gift", label: "Custom Gifts" },
     { href: "/services", label: "Services" },
     { href: "/classes", label: "Classes" },
     { href: "/gallery", label: "Gallery" },
@@ -31,7 +32,17 @@ export default function Header() {
     <header className={`${styles.header} ${isScrolled ? "glass" : ""}`} style={{ position: "sticky", top: 0, zIndex: 100, transition: "all 0.3s ease" }}>
       <div className={`container ${styles.headerContainer}`}>
         <Link href="/" className={styles.logo} style={{ display: "flex", alignItems: "center" }}>
-          <img src="/images/logo.jpg" alt="ANANTA" style={{ height: "40px", width: "auto", mixBlendMode: "multiply", borderRadius: "4px" }} />
+          <img 
+            src="/images/logo.jpg" 
+            alt="ANANTA" 
+            style={{ 
+              height: "48px", 
+              width: "auto", 
+              maxWidth: "180px", 
+              objectFit: "contain", 
+              borderRadius: "4px" 
+            }} 
+          />
         </Link>
         
         <nav className={styles.desktopNav}>

@@ -1,39 +1,46 @@
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap');
 
 :root {
-  /* Brand Colors - Warm, Artistic, Premium */
-  --primary: #9C4B3C; /* Terracotta/Henna inspired */
-  --primary-light: #B85F4D;
-  --primary-dark: #7A372B;
+  /* Brand Colors - Premium, Handmade, Artistic */
+  --primary: #5B2348; /* Deep Plum */
+  --primary-light: #7E3A68;
+  --primary-dark: #3E1631; /* Primary Dark */
   
-  --secondary: #D4AF37; /* Warm Gold */
-  --secondary-light: #F3D979;
+  --secondary: #B85C4A; /* Terracotta */
+  --secondary-light: #D67A68;
   
-  --accent: #2E5A4B; /* Deep Emerald/Forest */
+  --accent: #C89B3C; /* Antique Gold */
   
   /* Background & Surface */
-  --bg-main: #FAFAFA; /* Warm Off-white */
-  --bg-surface: #FFFFFF;
-  --bg-alt: #F4F1ED; /* Very subtle warm grey/beige */
+  --bg-main: #FFF8F0; /* Soft Cream */
+  --bg-surface: #FFFFFF; /* Card */
+  --bg-alt: #F3E7D7; /* Warm Beige */
   
   /* Typography Colors */
-  --text-main: #2C2C2C;
-  --text-muted: #6B6B6B;
+  --text-main: #241B20; /* Main Text */
+  --text-muted: #6F6268; /* Secondary Text */
   --text-light: #FFFFFF;
+  
+  /* Borders and Status */
+  --border-color: #E8DCD2; /* Soft Border */
+  --success: #2E7D5B;
+  --warning: #C58A24;
+  --danger: #B83A3A;
   
   /* Typography System */
   --font-heading: 'Playfair Display', serif;
-  --font-body: 'Outfit', sans-serif;
+  --font-body: 'Inter', sans-serif;
   
   /* UI Elements */
-  --radius-sm: 4px;
-  --radius-md: 8px;
-  --radius-lg: 16px;
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-lg: 20px;
+  --radius-xl: 24px;
   --radius-full: 9999px;
   
-  --shadow-sm: 0 2px 8px rgba(0,0,0,0.04);
-  --shadow-md: 0 8px 24px rgba(0,0,0,0.08);
-  --shadow-lg: 0 16px 40px rgba(0,0,0,0.12);
+  --shadow-sm: 0 4px 12px rgba(91, 35, 72, 0.05);
+  --shadow-md: 0 10px 30px rgba(91, 35, 72, 0.08);
+  --shadow-lg: 0 20px 50px rgba(91, 35, 72, 0.12);
   
   --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
   --transition-normal: 300ms cubic-bezier(0.4, 0, 0.2, 1);
@@ -42,20 +49,18 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --bg-main: #121212;
-    --bg-surface: #1E1E1E;
-    --bg-alt: #181818;
+    --bg-main: #1A1317;
+    --bg-surface: #241B20;
+    --bg-alt: #3E1631;
     
-    --text-main: #F4F4F4;
-    --text-muted: #A0A0A0;
+    --text-main: #FFF8F0;
+    --text-muted: #E8DCD2;
     
-    --primary: #B85F4D;
-    --primary-light: #D17664;
-    --primary-dark: #9C4B3C;
+    --border-color: #3E1631;
     
-    --shadow-sm: 0 2px 8px rgba(0,0,0,0.2);
-    --shadow-md: 0 8px 24px rgba(0,0,0,0.3);
-    --shadow-lg: 0 16px 40px rgba(0,0,0,0.4);
+    --shadow-sm: 0 4px 12px rgba(0,0,0,0.3);
+    --shadow-md: 0 10px 30px rgba(0,0,0,0.4);
+    --shadow-lg: 0 20px 50px rgba(0,0,0,0.5);
   }
 }
 

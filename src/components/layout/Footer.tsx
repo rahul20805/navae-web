@@ -12,7 +12,7 @@ export default function Footer() {
             Premium Indian creative studio for all your artistic needs.
           </p>
           <div className={styles.socials}>
-            <a href="https://instagram.com/ananta.studio" target="_blank" rel="noopener noreferrer">
+            <a href="https://instagram.com/infiny.pvt" target="_blank" rel="noopener noreferrer">
               Instagram
             </a>
           </div>
@@ -41,8 +41,9 @@ export default function Footer() {
         <div>
           <h4 className={styles.footerHeading}>Contact</h4>
           <ul className={styles.footerList}>
-            <li>Email: hello@navae.in</li>
-            <li>Location: India</li>
+            <li>Email: anyanant7115@gmail.com</li>
+            <li>Phone: +91 7379609531</li>
+            <li>Location: Varanasi, India</li>
           </ul>
         </div>
       </div>

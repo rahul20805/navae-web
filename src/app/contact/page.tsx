@@ -1,5 +1,6 @@
 import { Metadata } from "next";
 import styles from "./page.module.css";
+import ContactForm from "./ContactForm";
 
 export const metadata: Metadata = {
   title: "Contact Us | ANANTA",
@@ -28,15 +29,19 @@ export default function ContactPage() {
               <h3>Visit Our Studio</h3>
               <div className={styles.infoItem}>
                 <h4>Address</h4>
-                <p>New Delhi, India<br/>(Full address provided upon booking)</p>
+                <p>Varanasi, India<br/>(Full address provided upon booking)</p>
               </div>
               <div className={styles.infoItem}>
                 <h4>Email</h4>
-                <p>hello@ananta.studio</p>
+                <p>anyanant7115@gmail.com</p>
               </div>
               <div className={styles.infoItem}>
                 <h4>Phone</h4>
-                <p>+91 98765 43210</p>
+                <p>+91 7379609531</p>
+              </div>
+              <div className={styles.infoItem}>
+                <h4>Instagram</h4>
+                <p><a href="https://instagram.com/infiny.pvt" target="_blank" rel="noopener noreferrer" style={{color: "var(--primary)"}}>@infiny.pvt</a></p>
               </div>
               <div className={styles.infoItem}>
                 <h4>Working Hours</h4>
@@ -48,37 +53,7 @@ export default function ContactPage() {
           {/* Contact Form */}
           <div>
             <h2 style={{ marginBottom: "2rem" }}>Send us a Message</h2>
-            <form className="card" style={{ padding: "2rem" }}>
-              <div className={styles.formGroup}>
-                <label htmlFor="name" className={styles.formLabel}>Full Name</label>
-                <input type="text" id="name" name="name" className={styles.formInput} placeholder="Jane Doe" required />
-              </div>
-              
-              <div className={styles.formGroup}>
-                <label htmlFor="email" className={styles.formLabel}>Email Address</label>
-                <input type="email" id="email" name="email" className={styles.formInput} placeholder="jane@example.com" required />
-              </div>
-
-              <div className={styles.formGroup}>
-                <label htmlFor="subject" className={styles.formLabel}>Subject</label>
-                <select id="subject" name="subject" className={styles.formInput} required>
-                  <option value="" disabled selected>Select an option</option>
-                  <option value="mehndi">Mehndi Booking</option>
-                  <option value="custom_art">Custom Art Order</option>
-                  <option value="classes">Classes & Tuition</option>
-                  <option value="general">General Enquiry</option>
-                </select>
-              </div>
-              
-              <div className={styles.formGroup}>
-                <label htmlFor="message" className={styles.formLabel}>Message</label>
-                <textarea id="message" name="message" className={styles.formTextarea} placeholder="How can we help you?" required></textarea>
-              </div>
-              
-              <button type="button" className="btn btn-primary" style={{ width: "100%" }}>
-                Send Message
-              </button>
-            </form>
+            <ContactForm />
           </div>
         </div>
       </section>

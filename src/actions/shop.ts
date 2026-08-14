@@ -71,3 +71,26 @@ export async function createOrder(data: { items: any[], totalAmount: number, shi
     return { success: false, error: error.message || "Something went wrong" };
   }
 }
+
+export async function submitEnquiry(data: { name: string, email: string, subject: string, message: string }) {
+  try {
+    const session = await auth();
+    const userId = session?.user?.id;
+
+    await prisma.enquiry.create({
+      data: {
+        name: data.name,
+        email: data.email,
+        type: data.subject,
+        message: data.message,
+        userId: userId || null,
+        status: "NEW",
+      }
+    });
+
+    return { success: true };
+  } catch (error: any) {
+    console.error("Failed to submit enquiry:", error);
+    return { success: false, error: error.message || "Something went wrong" };
+  }
+}

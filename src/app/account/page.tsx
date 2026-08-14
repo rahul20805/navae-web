@@ -79,7 +79,7 @@ export default async function AccountPage() {
               </div>
             ) : (
               <div style={{ display: "flex", flexDirection: "column", gap: "2rem" }}>
-                {user.orders.map((order) => (
+                {user.orders.map((order: any) => (
                   <div key={order.id} style={{ border: "1px solid #eaeaea", borderRadius: "var(--radius-md)", padding: "1.5rem" }}>
                     
                     <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", flexWrap: "wrap", gap: "1rem", marginBottom: "1.5rem" }}>
@@ -119,7 +119,7 @@ export default async function AccountPage() {
                     <div style={{ borderTop: "1px solid #eee", paddingTop: "1.5rem" }}>
                       <h4 style={{ marginBottom: "1rem", fontSize: "0.95rem" }}>Items in this order:</h4>
                       <div style={{ display: "grid", gap: "1rem" }}>
-                        {order.items.map((item) => (
+                        {order.items.map((item: any) => (
                           <div key={item.id} style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
                             <div style={{ width: "50px", height: "50px", background: "#f0f0f0", borderRadius: "4px", overflow: "hidden" }}>
                               {item.product.images[0] ? (

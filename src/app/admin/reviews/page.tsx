@@ -18,8 +18,8 @@ export default function ReviewsPage() {
     setLoading(false);
   }
 
-  const handleToggle = async (id: string, isPublished: boolean) => {
-    await toggleReviewVisibility(id, isPublished);
+  const handleToggle = async (id: string, isApproved: boolean) => {
+    await toggleReviewVisibility(id, isApproved);
     loadData();
   };
 
@@ -56,24 +56,24 @@ export default function ReviewsPage() {
               {items.map((item) => (
                 <tr key={item.id} style={{ borderBottom: "1px solid #eee" }}>
                   <td style={{ padding: "1rem" }}>{new Date(item.createdAt).toLocaleDateString()}</td>
-                  <td style={{ padding: "1rem" }}>{item.user?.name || "Guest"}</td>
-                  <td style={{ padding: "1rem" }}>{item.product?.name || "N/A"}</td>
+                  <td style={{ padding: "1rem" }}>{item.author || "Guest"}</td>
+                  <td style={{ padding: "1rem" }}>{"Shop Product"}</td>
                   <td style={{ padding: "1rem", color: "#f39c12", fontWeight: "bold" }}>{"★".repeat(item.rating)}{"☆".repeat(5 - item.rating)}</td>
                   <td style={{ padding: "1rem", maxWidth: "250px", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
-                    {item.comment}
+                    {item.text}
                   </td>
                   <td style={{ padding: "1rem" }}>
-                    <span style={{ padding: "0.25rem 0.5rem", borderRadius: "4px", background: item.isPublished ? "#d4edda" : "#f8d7da", color: item.isPublished ? "#155724" : "#721c24", fontSize: "0.85rem" }}>
-                      {item.isPublished ? "Visible" : "Hidden"}
+                    <span style={{ padding: "0.25rem 0.5rem", borderRadius: "4px", background: item.isApproved ? "#d4edda" : "#f8d7da", color: item.isApproved ? "#155724" : "#721c24", fontSize: "0.85rem" }}>
+                      {item.isApproved ? "Approved" : "Hidden"}
                     </span>
                   </td>
                   <td style={{ padding: "1rem", display: "flex", gap: "0.5rem" }}>
                     <button 
                       className="btn btn-outline" 
                       style={{ padding: "0.25rem 0.75rem" }} 
-                      onClick={() => handleToggle(item.id, !item.isPublished)}
+                      onClick={() => handleToggle(item.id, !item.isApproved)}
                     >
-                      {item.isPublished ? "Hide" : "Approve"}
+                      {item.isApproved ? "Hide" : "Approve"}
                     </button>
                     <button 
                       className="btn btn-primary" 

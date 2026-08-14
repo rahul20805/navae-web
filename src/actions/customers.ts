@@ -7,7 +7,7 @@ export async function getCustomers() {
     orderBy: { createdAt: "desc" },
     include: {
       _count: {
-        select: { orders: true, reviews: true, enquiries: true }
+        select: { orders: true, enquiries: true }
       }
     }
   });

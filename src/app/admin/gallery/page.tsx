@@ -9,7 +9,7 @@ export default function GalleryPage() {
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
   
-  const [formData, setFormData] = useState({ imageUrl: "", caption: "" });
+  const [formData, setFormData] = useState({ url: "", title: "" });
   const [saving, setSaving] = useState(false);
 
   useEffect(() => {
@@ -24,7 +24,7 @@ export default function GalleryPage() {
   }
 
   const handleOpenModal = () => {
-    setFormData({ imageUrl: "", caption: "" });
+    setFormData({ url: "", title: "" });
     setShowModal(true);
   };
 
@@ -34,7 +34,7 @@ export default function GalleryPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!formData.imageUrl) {
+    if (!formData.url) {
       alert("Please upload an image first.");
       return;
     }
@@ -66,8 +66,8 @@ export default function GalleryPage() {
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))", gap: "1rem" }}>
           {items.map((item) => (
             <div key={item.id} className="card" style={{ padding: "0.5rem", position: "relative" }}>
-              <img src={item.imageUrl} alt={item.caption} style={{ width: "100%", height: "200px", objectFit: "cover", borderRadius: "4px" }} />
-              {item.caption && <div style={{ padding: "0.5rem", fontSize: "0.9rem", textAlign: "center" }}>{item.caption}</div>}
+              <img src={item.url} alt={item.title} style={{ width: "100%", height: "200px", objectFit: "cover", borderRadius: "4px" }} />
+              {item.title && <div style={{ padding: "0.5rem", fontSize: "0.9rem", textAlign: "center" }}>{item.title}</div>}
               <button 
                 onClick={() => handleDelete(item.id)}
                 style={{ position: "absolute", top: "10px", right: "10px", background: "red", color: "white", border: "none", borderRadius: "4px", padding: "0.25rem 0.5rem", cursor: "pointer" }}>
@@ -88,16 +88,16 @@ export default function GalleryPage() {
             <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "1rem", marginTop: "1.5rem" }}>
               <div>
                 <label style={{ display: "block", marginBottom: "0.5rem" }}>Photo *</label>
-                <ImageUpload value={formData.imageUrl} onChange={(url) => setFormData({ ...formData, imageUrl: url as string })} />
+                <ImageUpload value={formData.url} onChange={(url) => setFormData({ ...formData, url: url as string })} />
               </div>
               <div>
                 <label style={{ display: "block", marginBottom: "0.5rem" }}>Caption (optional)</label>
-                <input type="text" value={formData.caption} onChange={(e) => setFormData({ ...formData, caption: e.target.value })} style={{ width: "100%", padding: "0.75rem", border: "1px solid #ddd", borderRadius: "4px" }} />
+                <input type="text" value={formData.title} onChange={(e) => setFormData({ ...formData, title: e.target.value })} style={{ width: "100%", padding: "0.75rem", border: "1px solid #ddd", borderRadius: "4px" }} />
               </div>
               
               <div style={{ display: "flex", gap: "1rem", marginTop: "1rem" }}>
                 <button type="button" className="btn btn-outline" onClick={handleCloseModal} style={{ flex: 1 }}>Cancel</button>
-                <button type="submit" className="btn btn-primary" disabled={saving || !formData.imageUrl} style={{ flex: 1 }}>
+                <button type="submit" className="btn btn-primary" disabled={saving || !formData.url} style={{ flex: 1 }}>
                   {saving ? "Saving..." : "Save"}
                 </button>
               </div>

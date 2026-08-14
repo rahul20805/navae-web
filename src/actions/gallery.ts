@@ -7,12 +7,12 @@ export async function getGallery() {
   return prisma.gallery.findMany({ orderBy: { createdAt: "desc" } });
 }
 
-export async function addGalleryItem(data: { imageUrl: string, caption?: string }) {
+export async function addGalleryItem(data: { url: string, title?: string }) {
   try {
     await prisma.gallery.create({
       data: {
-        imageUrl: data.imageUrl,
-        caption: data.caption || "",
+        url: data.url,
+        title: data.title || "",
       }
     });
     revalidatePath("/admin/gallery");

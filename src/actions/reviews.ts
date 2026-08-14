@@ -6,18 +6,14 @@ import { revalidatePath } from "next/cache";
 export async function getReviews() {
   return prisma.review.findMany({ 
     orderBy: { createdAt: "desc" },
-    include: {
-      user: true,
-      product: true
-    }
   });
 }
 
-export async function toggleReviewVisibility(id: string, isPublished: boolean) {
+export async function toggleReviewVisibility(id: string, isApproved: boolean) {
   try {
     await prisma.review.update({
       where: { id },
-      data: { isPublished }
+      data: { isApproved }
     });
     revalidatePath("/admin/reviews");
     return { success: true };

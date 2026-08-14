@@ -1,107 +1,103 @@
+import { prisma } from "@/lib/prisma";
 import { Metadata } from "next";
-import styles from "./page.module.css";
 import Link from "next/link";
+import Image from "next/image";
 
 export const metadata: Metadata = {
   title: "Our Services | ANANTA",
   description: "Explore our premium services including Mehndi Design, Custom Art & Craft, and Dance & Tuition Classes.",
 };
 
-export default function ServicesPage() {
+export const revalidate = 60;
+
+export default async function ServicesPage() {
+  const services = await prisma.service.findMany({
+    where: { isPublished: true, isActive: true },
+    orderBy: { createdAt: "desc" },
+  });
+
   return (
-    <main>
-      <section className={styles.hero}>
+    <main className="bg-alt" style={{ minHeight: "100vh" }}>
+      <section className="container section" style={{ paddingTop: "3rem", paddingBottom: "2rem", textAlign: "center" }}>
+        <h1 className="text-primary" style={{ marginBottom: "1rem" }}>Our Services</h1>
+        <p className="text-muted" style={{ maxWidth: "600px", margin: "0 auto", fontSize: "1.1rem" }}>
+          Discover the artistry and passion behind our creative offerings. 
+          From elegant bridal Mehndi to academic tuition.
+        </p>
+      </section>
+
+      {services.length === 0 ? (
+        <section className="container section text-center">
+          <h2>Services are currently being updated.</h2>
+          <p className="text-muted">Please check back soon.</p>
+        </section>
+      ) : (
+        <section className="container" style={{ paddingBottom: "5rem" }}>
+          <div style={{ display: "flex", flexDirection: "column", gap: "4rem" }}>
+            {services.map((service, index) => (
+              <div 
+                key={service.id} 
+                id={service.slug}
+                className="card" 
+                style={{ 
+                  display: "grid", 
+                  gridTemplateColumns: index % 2 === 0 ? "1fr 1fr" : "1fr 1fr", 
+                  gap: "3rem", 
+                  alignItems: "center",
+                  padding: "2rem"
+                }}
+              >
+                {/* Image side */}
+                <div style={{ order: index % 2 === 0 ? 1 : 2, position: "relative", width: "100%", aspectRatio: "4/3", borderRadius: "var(--radius-md)", overflow: "hidden", backgroundColor: "#eee" }}>
+                  {service.image ? (
+                    <Image src={service.image} alt={service.title} fill style={{ objectFit: "cover" }} />
+                  ) : (
+                    <div style={{ width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center", color: "#999" }}>
+                      No Image Provided
+                    </div>
+                  )}
+                </div>
+
+                {/* Content side */}
+                <div style={{ order: index % 2 === 0 ? 2 : 1 }}>
+                  <h2 style={{ fontSize: "2rem", marginBottom: "1rem" }}>{service.title}</h2>
+                  <p style={{ color: "var(--text-muted)", fontSize: "1.1rem", marginBottom: "1.5rem", lineHeight: 1.6 }}>
+                    {service.description}
+                  </p>
+                  
+                  {service.features && service.features.length > 0 && (
+                    <ul style={{ listStyle: "none", padding: 0, margin: "0 0 2rem 0", display: "grid", gap: "0.5rem" }}>
+                      {service.features.map((feature, i) => (
+                        <li key={i} style={{ display: "flex", alignItems: "center", gap: "0.5rem", fontWeight: 500 }}>
+                          <span style={{ color: "var(--primary)" }}>✦</span> {feature}
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+
+                  <Link 
+                    href={`/contact?service=${service.slug}`} 
+                    className="btn btn-primary"
+                  >
+                    Enquire Now
+                  </Link>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* Embedded DIY & Workshops CTA */}
+      <section className="section" style={{ background: "var(--primary)", color: "white", textAlign: "center" }}>
         <div className="container">
-          <h1 className={styles.title}>Our Services</h1>
-          <p className={styles.subtitle}>
-            Discover the artistry and passion behind our creative offerings. 
-            From elegant bridal Mehndi to customized handmade gifts.
+          <h2 style={{ color: "var(--secondary-light)", marginBottom: "1.5rem" }}>Looking for Classes or Workshops?</h2>
+          <p style={{ fontSize: "1.2rem", maxWidth: "600px", margin: "0 auto 2rem auto", opacity: 0.9 }}>
+            We offer interactive dance classes, DIY workshops, and academic home tuition. 
+            View our schedule and book your slot today.
           </p>
-        </div>
-      </section>
-
-      {/* Mehndi Service */}
-      <section className={styles.section}>
-        <div className="container">
-          <div className={styles.grid}>
-            <div className={styles.content}>
-              <h2>Bridal & Occasion Mehndi</h2>
-              <p>
-                Our signature Mehndi services blend traditional Indian motifs with contemporary elegance. 
-                Whether it's for a bride on her special day, festivals, or private parties, we ensure 
-                deep stains and flawless artistry.
-              </p>
-              <ul className={styles.featuresList}>
-                <li><span>✦</span> Custom Bridal Designs</li>
-                <li><span>✦</span> Organic, Chemical-Free Henna</li>
-                <li><span>✦</span> Guest Mehndi Packages</li>
-                <li><span>✦</span> Minimalist & Arabic Styles</li>
-              </ul>
-              <Link href="/contact" className="btn btn-primary">Book Now</Link>
-            </div>
-            <div className={styles.imageBox}>
-              [Mehndi Artwork Image]
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Art & Craft Service */}
-      <section className={styles.sectionAlt}>
-        <div className="container">
-          <div className={`${styles.grid} ${styles.reverse}`}>
-            <div className={styles.content}>
-              <h2>Custom Art & Craft</h2>
-              <p>
-                Looking for the perfect personalized gift or bespoke decor? We create stunning handmade 
-                crafts tailored specifically to your vision. Perfect for corporate gifting, weddings, 
-                and home decoration.
-              </p>
-              <ul className={styles.featuresList}>
-                <li><span>✦</span> Resin Art & Nameplates</li>
-                <li><span>✦</span> Handmade Greeting Cards</li>
-                <li><span>✦</span> Custom Canvas Paintings</li>
-                <li><span>✦</span> Bulk Festival Gifting</li>
-              </ul>
-              <Link href="/contact" className="btn btn-primary">Request Custom Order</Link>
-            </div>
-            <div className={styles.imageBox}>
-              [Art & Craft Image]
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Classes Service */}
-      <section className={styles.section}>
-        <div className="container">
-          <div className={styles.grid}>
-            <div className={styles.content}>
-              <h2>Dance & Tuition Classes</h2>
-              <p>
-                Unleash your creativity and skills through our interactive classes. We offer professional 
-                dance choreography, art workshops, and academic tuition to help students excel in every aspect.
-              </p>
-              <ul className={styles.featuresList}>
-                <li><span>✦</span> Wedding Choreography</li>
-                <li><span>✦</span> Weekend Art Workshops</li>
-                <li><span>✦</span> Academic Home Tuition</li>
-                <li><span>✦</span> Kids Summer Camps</li>
-              </ul>
-              <Link href="/classes" className="btn btn-secondary">View Schedule</Link>
-            </div>
-            <div className={styles.imageBox}>
-              [Classes Image]
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className={styles.ctaSection}>
-        <div className="container">
-          <h2 style={{ marginBottom: "1.5rem", color: "var(--primary-dark)" }}>Ready to bring your vision to life?</h2>
-          <Link href="/contact" className="btn btn-primary">
-            Contact Us Today
+          <Link href="/classes" className="btn" style={{ background: "white", color: "var(--primary-dark)" }}>
+            View Class Schedule
           </Link>
         </div>
       </section>

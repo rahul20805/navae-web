@@ -1,51 +1,103 @@
-import { getProductBySlug } from "@/actions/shop";
+import { prisma } from "@/lib/prisma";
 import { notFound } from "next/navigation";
-import styles from "../page.module.css";
-import AddToCart from "@/components/shop/AddToCart";
+import Image from "next/image";
+import ProductCustomizer from "@/components/shop/ProductCustomizer";
+import Link from "next/link";
+import { Metadata } from "next";
+
+export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
+  const product = await prisma.product.findUnique({ where: { slug: params.slug } });
+  return {
+    title: product ? `${product.name} | ANANTA` : "Product Not Found",
+    description: product?.description || "Handmade with love.",
+  };
+}
 
 export default async function ProductDetailPage({ params }: { params: { slug: string } }) {
-  const product = await getProductBySlug(params.slug);
+  const product = await prisma.product.findUnique({
+    where: { slug: params.slug },
+    include: { category: true }
+  });
 
-  if (!product) {
+  if (!product || !product.isPublished) {
     notFound();
   }
 
   return (
-    <main className="container">
-      <div className={styles.detailGrid}>
-        <div className={styles.detailImage}>
-          {product.images[0] ? (
-            <img src={product.images[0]} alt={product.name} style={{ width: "100%", height: "100%", objectFit: "cover", borderRadius: "inherit" }} />
-          ) : (
-            <span>No Image</span>
+    <main className="container section">
+      <Link href="/shop" style={{ display: "inline-flex", alignItems: "center", gap: "0.5rem", color: "var(--text-muted)", marginBottom: "2rem" }}>
+        ← Back to Shop
+      </Link>
+
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))", gap: "4rem" }}>
+        {/* Left: Image Gallery */}
+        <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
+          <div style={{ position: "relative", width: "100%", aspectRatio: "1/1", borderRadius: "var(--radius-lg)", overflow: "hidden", backgroundColor: "#f0f0f0" }}>
+            {product.images[0] ? (
+              <Image src={product.images[0]} alt={product.name} fill style={{ objectFit: "cover" }} priority />
+            ) : (
+              <div style={{ width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center" }}>No image available</div>
+            )}
+          </div>
+          
+          {product.images.length > 1 && (
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "1rem" }}>
+              {product.images.slice(1).map((img, i) => (
+                <div key={i} style={{ position: "relative", aspectRatio: "1/1", borderRadius: "var(--radius-md)", overflow: "hidden" }}>
+                  <Image src={img} alt={`${product.name} ${i+2}`} fill style={{ objectFit: "cover" }} />
+                </div>
+              ))}
+            </div>
           )}
         </div>
-        
-        <div className={styles.detailInfo}>
-          <div className={styles.productCategory}>{product.category?.name || "Uncategorized"}</div>
-          <h1>{product.name}</h1>
-          <div className={styles.detailPrice}>₹{product.price.toFixed(2)}</div>
-          
-          <p className={styles.detailDesc}>
-            {product.description || "A beautiful handmade creation by ANANTA."}
-          </p>
 
-          <div style={{ marginBottom: "2rem" }}>
-            <span style={{ color: product.stock > 0 ? "var(--primary)" : "red", fontWeight: "bold" }}>
-              {product.stock > 0 ? `In Stock (${product.stock} available)` : "Out of Stock"}
+        {/* Right: Product Details */}
+        <div>
+          <span style={{ color: "var(--primary)", textTransform: "uppercase", fontSize: "0.85rem", letterSpacing: "1px", fontWeight: "bold" }}>
+            {product.category?.name || "Handmade"}
+          </span>
+          <h1 style={{ fontSize: "2.5rem", marginTop: "0.5rem", marginBottom: "1rem" }}>{product.name}</h1>
+          
+          <div style={{ display: "flex", alignItems: "baseline", gap: "1rem", marginBottom: "2rem" }}>
+            <span style={{ fontSize: "2rem", fontWeight: "bold", color: "var(--text-main)" }}>
+              ₹{product.discountPrice || product.price}
             </span>
+            {product.discountPrice && (
+              <span style={{ fontSize: "1.25rem", color: "var(--text-muted)", textDecoration: "line-through" }}>
+                ₹{product.price}
+              </span>
+            )}
+          </div>
+
+          <div style={{ color: "var(--text-muted)", lineHeight: 1.8, marginBottom: "2rem" }}>
+            {product.description || "No description provided."}
+          </div>
+
+          <div style={{ padding: "1rem", background: product.stock > 0 ? "#f8fff9" : "#fff8f8", borderRadius: "var(--radius-sm)", color: product.stock > 0 ? "#2e5a4b" : "#dc3545", marginBottom: "1rem" }}>
+            {product.stock > 0 ? `✓ In Stock (${product.stock} available)` : "✗ Currently Out of Stock"}
           </div>
 
           {product.stock > 0 && product.isAvailable && (
-            <AddToCart 
+            <ProductCustomizer 
               product={{
                 id: product.id,
                 name: product.name,
                 price: product.price,
-                image: product.images[0]
+                discountPrice: product.discountPrice,
+                image: product.images[0] || "",
+                customization: product.customization
               }} 
             />
           )}
+
+          <div style={{ marginTop: "3rem", paddingTop: "2rem", borderTop: "1px solid #eee" }}>
+            <h4 style={{ marginBottom: "1rem" }}>Production & Delivery</h4>
+            <ul style={{ color: "var(--text-muted)", paddingLeft: "1.2rem", display: "flex", flexDirection: "column", gap: "0.5rem" }}>
+              <li>Handmade to order specifically for you.</li>
+              <li>Standard production time is 3-5 business days.</li>
+              <li>Securely packaged for safe transit across India.</li>
+            </ul>
+          </div>
         </div>
       </div>
     </main>

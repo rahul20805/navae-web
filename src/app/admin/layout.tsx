@@ -25,6 +25,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
           <Link href="/admin/orders" className={styles.navItem}>Orders</Link>
           <Link href="/admin/enquiries" className={styles.navItem}>Enquiries</Link>
           <Link href="/admin/customers" className={styles.navItem}>Customers</Link>
+          <Link href="/admin/coupons" className={styles.navItem}>Coupons & Promo</Link>
           <Link href="/admin/gallery" className={styles.navItem}>Gallery</Link>
           <Link href="/admin/reviews" className={styles.navItem}>Reviews</Link>
           <Link href="/admin/content" className={styles.navItem}>Website Content</Link>

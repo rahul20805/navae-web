@@ -39,7 +39,15 @@ export async function getCategories() {
   }
 }
 
-export async function createOrder(data: { items: any[], totalAmount: number, shippingAddress: string, billingAddress: string }) {
+export async function createOrder(data: { 
+  items: any[], 
+  totalAmount: number, 
+  originalAmount?: number,
+  discountAmount?: number,
+  couponId?: string,
+  shippingAddress: string, 
+  billingAddress: string 
+}) {
   try {
     const session = await auth();
     const userId = session?.user?.id;
@@ -52,18 +60,28 @@ export async function createOrder(data: { items: any[], totalAmount: number, shi
       data: {
         userId,
         totalAmount: data.totalAmount,
+        originalAmount: data.originalAmount || data.totalAmount,
+        discountAmount: data.discountAmount || 0,
+        couponId: data.couponId || null,
         shippingAddress: data.shippingAddress,
         billingAddress: data.billingAddress,
         status: "PENDING",
         items: {
           create: data.items.map((item) => ({
-            productId: item.productId,
+            productId: item.id || item.productId,
             quantity: item.quantity,
             price: item.price,
           })),
         },
       },
     });
+
+    if (data.couponId) {
+      await prisma.coupon.update({
+        where: { id: data.couponId },
+        data: { usedCount: { increment: 1 } }
+      });
+    }
 
     return { success: true, orderId: order.id };
   } catch (error: any) {

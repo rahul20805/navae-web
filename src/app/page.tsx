@@ -1,121 +1,107 @@
-import Link from "next/link";
-import styles from "./page.module.css";
 import { prisma } from "@/lib/prisma";
+import HeroSection from "@/components/home/HeroSection";
+import CategoryCards from "@/components/home/CategoryCards";
+import ProductCarousel from "@/components/home/ProductCarousel";
+import Link from "next/link";
 
-export default async function Home() {
-  const settingsData = await prisma.setting.findMany();
-  const settings = settingsData.reduce((acc, curr) => {
-    acc[curr.key] = curr.value;
-    return acc;
-  }, {} as Record<string, string>);
+export const revalidate = 60; // Revalidate every minute
 
-  const heroTitle = settings.heroTitle || "Create. Learn. Celebrate.";
-  const heroSubtitle = settings.heroSubtitle || "Premium Indian creative studio offering Mehndi design, art & craft, dance tuition, DIY projects, custom products, and workshops.";
-  const aboutText = settings.aboutText || "ANANTA is more than just a business; it's a creative sanctuary.\nFounded by Anant, our studio brings together traditional Indian artistry with modern aesthetics.";
-  const heroImage = settings.heroImage || "";
-  const announcementBar = settings.announcementBar || "";
+export default async function HomePage() {
+  // Fetch homepage content if we have it
+  const heroContent = await prisma.websiteContent.findUnique({
+    where: { section: "hero_banner" }
+  });
+
+  // Fetch some products for the carousel
+  const recentProducts = await prisma.product.findMany({
+    where: { isPublished: true },
+    orderBy: { createdAt: 'desc' },
+    take: 8,
+    select: {
+      id: true,
+      name: true,
+      slug: true,
+      price: true,
+      discountPrice: true,
+      images: true,
+      customization: true,
+    }
+  });
+
+  const occasionCategories = [
+    { name: "Birthday Gifts", icon: "🎂", link: "/shop?occasion=birthday" },
+    { name: "Anniversary", icon: "❤️", link: "/shop?occasion=anniversary" },
+    { name: "Wedding", icon: "💍", link: "/shop?occasion=wedding" },
+    { name: "Valentine's", icon: "🌹", link: "/shop?occasion=valentine" },
+  ];
+
+  const recipientCategories = [
+    { name: "For Girlfriend", icon: "💕", link: "/shop?recipient=girlfriend" },
+    { name: "For Boyfriend", icon: "💙", link: "/shop?recipient=boyfriend" },
+    { name: "For Couples", icon: "💑", link: "/shop?recipient=couple" },
+    { name: "For Friends", icon: "👭", link: "/shop?recipient=friend" },
+  ];
 
   return (
     <main>
-      {announcementBar && (
-        <div style={{ background: "var(--primary-dark)", color: "white", textAlign: "center", padding: "0.5rem", fontSize: "0.9rem" }}>
-          {announcementBar}
-        </div>
-      )}
+      <HeroSection content={heroContent?.content} />
       
-      {/* Hero Section */}
-      <section className={styles.hero} style={heroImage ? { backgroundImage: `linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url(${heroImage})`, backgroundSize: "cover", backgroundPosition: "center" } : {}}>
-        {!heroImage && <div className={styles.heroBackground}></div>}
-        <div className={styles.heroContent}>
-          <h1 className={styles.heroTitle}>{heroTitle}</h1>
-          <p className={styles.heroSubtitle}>
-            {heroSubtitle}
-          </p>
-          <div className={styles.heroActions}>
-            <Link href="/shop" className="btn btn-primary">
-              Explore Shop
-            </Link>
-            <Link href="/contact" className="btn btn-secondary">
-              Book a Service
-            </Link>
-          </div>
+      <CategoryCards title="Shop by Occasion" items={occasionCategories} />
+      
+      <ProductCarousel title="Handmade Gift Collection" products={recentProducts} />
+
+      <section className="section bg-alt">
+        <div className="container">
+          <CategoryCards title="Shop by Recipient" items={recipientCategories} />
         </div>
       </section>
 
-      {/* Services Section */}
-      <section className={`section ${styles.servicesSection}`}>
+      {/* Create Your Own Gift CTA */}
+      <section className="section" style={{ background: "var(--primary)", color: "white", textAlign: "center" }}>
+        <div className="container" style={{ maxWidth: "800px" }}>
+          <h2 style={{ color: "var(--secondary-light)", marginBottom: "1.5rem" }}>Create Something Special</h2>
+          <p style={{ fontSize: "1.2rem", marginBottom: "2rem", opacity: 0.9 }}>
+            Can't find exactly what you're looking for? Let us create a personalized, handmade masterpiece just for you.
+          </p>
+          <Link href="/shop?custom=true" className="btn" style={{ background: "white", color: "var(--primary-dark)", padding: "1rem 3rem", fontSize: "1.1rem" }}>
+            Request Custom Gift
+          </Link>
+        </div>
+      </section>
+
+      {/* Services Showcase Preview */}
+      <section className="section">
         <div className="container">
-          <div className={styles.sectionHeader}>
-            <h2 className={styles.sectionTitle}>Our Expertise</h2>
-            <p className="text-muted">Discover the creative services we offer with passion and precision.</p>
+          <div style={{ textAlign: "center", marginBottom: "3rem" }}>
+            <h2>Creative Services & Experiences</h2>
+            <p className="text-muted">Explore our workshops, classes, and professional services.</p>
           </div>
           
-          <div className={styles.serviceGrid}>
-            <div className={`card ${styles.serviceCard}`}>
-              <div className={styles.serviceIcon}>✨</div>
-              <h3 className={styles.serviceTitle}>Bridal & Occasion Mehndi</h3>
-              <p className={styles.serviceDesc}>Intricate, traditional, and modern henna designs for your special day.</p>
-            </div>
-            
-            <div className={`card ${styles.serviceCard}`}>
-              <div className={styles.serviceIcon}>🎨</div>
-              <h3 className={styles.serviceTitle}>Art & Craft Customization</h3>
-              <p className={styles.serviceDesc}>Handmade customized products, DIY projects, and bulk creative orders.</p>
-            </div>
-            
-            <div className={`card ${styles.serviceCard}`}>
-              <div className={styles.serviceIcon}>💃</div>
-              <h3 className={styles.serviceTitle}>Dance & Creative Classes</h3>
-              <p className={styles.serviceDesc}>Learn dance, painting, and craft through engaging workshops and home tuition.</p>
-            </div>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "2rem" }}>
+            {[
+              { title: "Mehndi Design", desc: "Bridal & Custom Mehndi", link: "/services#mehndi", img: "https://images.unsplash.com/photo-1598284534125-78e718818fce?w=500&q=80" },
+              { title: "Dance Classes", desc: "For Kids & Adults", link: "/classes", img: "https://images.unsplash.com/photo-1508700929628-666bc8bd84ea?w=500&q=80" },
+              { title: "DIY Workshops", desc: "Learn Art & Craft", link: "/classes", img: "https://images.unsplash.com/photo-1460518451285-97b6aa326961?w=500&q=80" },
+              { title: "Home Tuition", desc: "Academic Support", link: "/services#tuition", img: "https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=500&q=80" }
+            ].map((srv, i) => (
+              <Link href={srv.link} key={i} className="card" style={{ padding: 0, overflow: "hidden", display: "flex", flexDirection: "column" }}>
+                <div style={{ height: "200px", background: `url(${srv.img}) center/cover` }}></div>
+                <div style={{ padding: "1.5rem", textAlign: "center" }}>
+                  <h3 style={{ fontSize: "1.25rem", marginBottom: "0.5rem" }}>{srv.title}</h3>
+                  <p style={{ margin: 0, color: "var(--text-muted)" }}>{srv.desc}</p>
+                </div>
+              </Link>
+            ))}
+          </div>
+          
+          <div style={{ textAlign: "center", marginTop: "3rem" }}>
+            <Link href="/services" className="btn btn-outline" style={{ borderColor: "var(--primary)", color: "var(--primary)" }}>
+              View All Services
+            </Link>
           </div>
         </div>
       </section>
 
-      {/* About Overview */}
-      <section className={`section ${styles.aboutSection}`}>
-        <div className="container">
-          <div className={styles.aboutGrid}>
-            <div className={styles.aboutContent}>
-              <h2 className={styles.aboutTitle}>Made With Heart.</h2>
-              <p style={{ whiteSpace: "pre-line" }}>
-                {aboutText}
-              </p>
-              <p>
-                Whether you need elegant bridal Mehndi, a custom handmade gift, or want to 
-                learn a new skill in our creative workshops, we put our heart into every detail.
-              </p>
-              
-              <div className={styles.featuresGrid}>
-                <div className={styles.featureItem}>
-                  <span>✓</span> Premium Quality
-                </div>
-                <div className={styles.featureItem}>
-                  <span>✓</span> Custom Designs
-                </div>
-                <div className={styles.featureItem}>
-                  <span>✓</span> Expert Instructors
-                </div>
-                <div className={styles.featureItem}>
-                  <span>✓</span> Timely Delivery
-                </div>
-              </div>
-              
-              <div style={{ marginTop: "2rem" }}>
-                <Link href="/about" className="btn btn-secondary">
-                  Our Story
-                </Link>
-              </div>
-            </div>
-            
-            <div className={styles.aboutImage}>
-              <div style={{ width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center", background: "var(--primary-light)", color: "white", fontSize: "1.5rem", fontStyle: "italic" }}>
-                {settings.businessName || "ANANTA"} Studio
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
     </main>
   );
 }

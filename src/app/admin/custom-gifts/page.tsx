@@ -1,6 +1,7 @@
 import { getCustomGiftRequests, updateCustomGiftStatus } from "@/actions/customGift";
 import { Metadata } from "next";
 import GiftStatusUpdater from "./GiftStatusUpdater";
+import DeleteGiftButton from "./DeleteGiftButton";
 
 export const metadata: Metadata = {
   title: "Custom Gift Requests | Admin | ANANTA",
@@ -61,6 +62,9 @@ export default async function AdminCustomGiftsPage() {
                     <div style={{ color: "var(--text-muted)", fontSize: "0.85rem", marginTop: "0.25rem" }}>
                       Request ID: <strong style={{ color: "var(--primary)" }}>{req.requestId}</strong> — {new Date(req.createdAt).toLocaleString("en-IN")}
                     </div>
+                  </div>
+                  <div>
+                    <DeleteGiftButton id={req.id} requestId={req.requestId} />
                   </div>
                 </div>
 

@@ -261,14 +261,13 @@ export default function CartPage() {
                 <span style={{ color: "var(--primary)" }}>₹{finalTotal.toFixed(2)}</span>
               </div>
 
-              <button 
+              <Link 
+                href="/checkout" 
                 className="btn btn-primary" 
-                style={{ width: "100%", padding: "1rem", fontSize: "1.1rem", justifyContent: "center" }} 
-                onClick={handleCheckout}
-                disabled={isCheckingOut}
+                style={{ display: "block", width: "100%", padding: "1rem", fontSize: "1.1rem", textAlign: "center" }} 
               >
-                {isCheckingOut ? "Processing securely..." : `Checkout • ₹${finalTotal.toFixed(2)}`}
-              </button>
+                Proceed to Checkout • ₹{finalTotal.toFixed(2)}
+              </Link>
               
               <p style={{ textAlign: "center", fontSize: "0.85rem", color: "var(--text-muted)", marginTop: "1rem" }}>
                 Secure Checkout powered by Razorpay

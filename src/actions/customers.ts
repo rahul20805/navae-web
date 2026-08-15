@@ -58,6 +58,9 @@ export async function getCustomerProfile(id: string) {
       },
       emails: {
         orderBy: { sentAt: "desc" }
+      },
+      customGiftRequests: {
+        orderBy: { createdAt: "desc" }
       }
     }
   });

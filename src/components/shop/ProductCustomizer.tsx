@@ -47,7 +47,7 @@ export default function ProductCustomizer({ product }: { product: ProductData })
       if (customDetails.message) msg += `- Message: ${customDetails.message}\n`;
       if (customDetails.instructions) msg += `- Instructions: ${customDetails.instructions}\n`;
     }
-    const url = `https://wa.me/911234567890?text=${encodeURIComponent(msg)}`;
+    const url = `https://wa.me/917379609531?text=${encodeURIComponent(msg)}`;
     window.open(url, "_blank");
   };
 

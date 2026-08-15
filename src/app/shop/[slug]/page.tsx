@@ -6,17 +6,21 @@ import ReviewSection from "@/components/shop/ReviewSection";
 import Link from "next/link";
 import { Metadata } from "next";
 
-export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
-  const product = await prisma.product.findUnique({ where: { slug: params.slug } });
+type Props = { params: Promise<{ slug: string }> };
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { slug } = await params;
+  const product = await prisma.product.findUnique({ where: { slug } });
   return {
     title: product ? `${product.name} | ANANTA` : "Product Not Found",
     description: product?.description || "Handmade with love.",
   };
 }
 
-export default async function ProductDetailPage({ params }: { params: { slug: string } }) {
+export default async function ProductDetailPage({ params }: Props) {
+  const { slug } = await params;
   const product = await prisma.product.findUnique({
-    where: { slug: params.slug },
+    where: { slug },
     include: { 
       category: true,
       reviews: {

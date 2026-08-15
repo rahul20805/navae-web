@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { useSession } from "next-auth/react";
 import styles from "./Header.module.css";
 import { useState, useEffect } from "react";
+import { useCartStore } from "@/store/useCartStore";
 
 export default function Header() {
   const pathname = usePathname();
@@ -58,12 +59,13 @@ export default function Header() {
         </nav>
 
           <div className={styles.actions} style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
-            <Link href="/cart" className={styles.iconBtn} aria-label="Cart">
+            <Link href="/cart" className={styles.iconBtn} aria-label="Cart" style={{ position: "relative" }}>
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <circle cx="9" cy="21" r="1"></circle>
                 <circle cx="20" cy="21" r="1"></circle>
                 <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
               </svg>
+              <CartCount />
             </Link>
             
             {status === "authenticated" && session?.user ? (
@@ -87,5 +89,41 @@ export default function Header() {
           </div>
       </div>
     </header>
+  );
+}
+
+function CartCount() {
+  const [mounted, setMounted] = useState(false);
+  const items = useCartStore((state) => state.items);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) return null;
+
+  const count = items.reduce((total, item) => total + item.quantity, 0);
+
+  if (count === 0) return null;
+
+  return (
+    <span style={{
+      position: "absolute",
+      top: "-8px",
+      right: "-8px",
+      backgroundColor: "var(--primary)",
+      color: "white",
+      fontSize: "0.75rem",
+      fontWeight: "bold",
+      width: "20px",
+      height: "20px",
+      borderRadius: "50%",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      boxShadow: "0 2px 4px rgba(0,0,0,0.2)"
+    }}>
+      {count}
+    </span>
   );
 }

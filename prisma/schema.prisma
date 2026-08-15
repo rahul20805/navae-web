@@ -52,6 +52,7 @@ model User {
   bookings      Booking[]
   enquiries     Enquiry[]
   emails        EmailLog[]
+  customGiftRequests CustomGiftRequest[]
 }
 
 model Account {
@@ -284,4 +285,24 @@ model EmailLog {
   content   String   @db.Text
   status    String   @default("SENT") // SENT, FAILED, PENDING
   sentAt    DateTime @default(now())
+}
+
+model CustomGiftRequest {
+  id              String   @id @default(cuid())
+  requestId       String   @unique // Human-readable like GIFT-2024-001
+  userId          String?
+  user            User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+  name            String
+  email           String
+  phone           String?
+  occasion        String?
+  recipient       String?
+  style           String?
+  budget          String?
+  message         String?  @db.Text
+  specialInstructions String? @db.Text
+  status          String   @default("NEW") // NEW, CONTACTED, QUOTATION_SENT, CONFIRMED, COMPLETED, CANCELLED
+  adminNotes      String?  @db.Text
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
 }

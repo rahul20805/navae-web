@@ -50,6 +50,9 @@ export default async function AccountLayout({ children }: { children: React.Reac
                 <Link href="/account/settings" style={{ padding: "0.75rem 1rem", borderRadius: "8px", textDecoration: "none", color: "var(--text-main)", fontWeight: "500", transition: "background 0.2s" }} className="hover-bg-light">
                   Profile Settings
                 </Link>
+                <Link href="/account/custom-gifts" style={{ padding: "0.75rem 1rem", borderRadius: "8px", textDecoration: "none", color: "var(--text-main)", fontWeight: "500", transition: "background 0.2s" }} className="hover-bg-light">
+                  🎁 Custom Gift Requests
+                </Link>
               </nav>
             </div>
           </aside>

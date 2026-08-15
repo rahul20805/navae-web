@@ -2,23 +2,40 @@ import { getClassBySlug } from "@/actions/bookings";
 import { notFound } from "next/navigation";
 import styles from "../page.module.css";
 import BookClassForm from "@/components/bookings/BookClassForm";
+import { Metadata } from "next";
+import Link from "next/link";
 
-export default async function ClassDetailPage({ params }: { params: { slug: string } }) {
-  const cls = await getClassBySlug(params.slug);
+type Props = { params: Promise<{ slug: string }> };
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { slug } = await params;
+  const cls = await getClassBySlug(slug);
+  return {
+    title: cls ? `${cls.title} | Classes | ANANTA` : "Class Not Found | ANANTA",
+    description: cls?.description || "Book an art class with ANANTA.",
+  };
+}
+
+export default async function ClassDetailPage({ params }: Props) {
+  const { slug } = await params;
+  const cls = await getClassBySlug(slug);
 
   if (!cls) {
     notFound();
   }
 
   return (
-    <main className="container">
+    <main className="container" style={{ paddingTop: "2rem", paddingBottom: "4rem" }}>
+      <Link href="/classes" style={{ display: "inline-flex", alignItems: "center", gap: "0.5rem", color: "var(--text-muted)", marginBottom: "2rem", textDecoration: "none" }}>
+        ← Back to Classes
+      </Link>
       <div className={styles.detailGrid}>
         <div>
           <div className={styles.detailImage}>
             {cls.image ? (
               <img src={cls.image} alt={cls.title} style={{ width: "100%", height: "100%", objectFit: "cover", borderRadius: "inherit" }} />
             ) : (
-              <span>No Image</span>
+              <div style={{ width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "4rem" }}>🎨</div>
             )}
           </div>
           
@@ -28,10 +45,10 @@ export default async function ClassDetailPage({ params }: { params: { slug: stri
           </p>
 
           <div style={{ display: "flex", flexDirection: "column", gap: "1rem", marginBottom: "2rem" }}>
-            <div className={styles.classDetail}><strong>📅 Schedule:</strong> {cls.schedule || "Flexible Timing"}</div>
-            <div className={styles.classDetail}><strong>⏱️ Duration:</strong> {cls.duration || "1 Hour"}</div>
-            <div className={styles.classDetail}><strong>🧑‍🏫 Instructor:</strong> {cls.instructor || "ANANTA Expert"}</div>
-            <div className={styles.classDetail}><strong>👥 Max Students:</strong> {cls.maxStudents || "10"} per batch</div>
+            {cls.schedule && <div className={styles.classDetail}><strong>📅 Schedule:</strong> {cls.schedule}</div>}
+            {cls.duration && <div className={styles.classDetail}><strong>⏱️ Duration:</strong> {cls.duration}</div>}
+            {cls.instructor && <div className={styles.classDetail}><strong>🧑‍🏫 Instructor:</strong> {cls.instructor}</div>}
+            {cls.maxStudents && <div className={styles.classDetail}><strong>👥 Max Students:</strong> {cls.maxStudents} per batch</div>}
           </div>
         </div>
         

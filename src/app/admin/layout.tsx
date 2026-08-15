@@ -34,7 +34,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
       </aside>
       <main className={styles.adminMain}>
         <header className={styles.adminHeader}>
-          <div>Welcome, {session.user.name}</div>
+          <div>Welcome Owner</div>
         </header>
         <div className={styles.adminContent}>
           {children}

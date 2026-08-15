@@ -6,15 +6,16 @@ import React from "react";
 export default async function AccountLayout({ children }: { children: React.ReactNode }) {
   const session = await auth();
 
-  // Protect route
+  // Protect route - unauthenticated users go to login
   if (!session?.user) {
     redirect("/login?callbackUrl=/account");
   }
 
-  // Optional: Redirect owner back to admin if they shouldn't be here
-  // if (session.user.role === "OWNER" || session.user.role === "SUPER_ADMIN") {
-  //   redirect("/admin");
-  // }
+  // Owner/Admin accounts belong in the Admin Dashboard, not the customer portal
+  const role = session.user.role as string | undefined;
+  if (role === "OWNER" || role === "SUPER_ADMIN") {
+    redirect("/admin");
+  }
 
   return (
     <main className="bg-alt" style={{ minHeight: "80vh", paddingTop: "3rem", paddingBottom: "5rem" }}>

@@ -2,12 +2,15 @@ import { auth } from "@/auth";
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import styles from "./admin.module.css";
+import AdminSignOutButton from "./AdminSignOutButton";
 
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
   const session = await auth();
 
-  if (!session || session.user.role !== "OWNER") {
-    redirect("/owner/login");
+  const role = session?.user?.role;
+  const isAuthorized = role === "OWNER" || role === "SUPER_ADMIN";
+  if (!session || !isAuthorized) {
+    redirect("/login");
   }
 
   return (
@@ -35,7 +38,11 @@ export default async function AdminLayout({ children }: { children: React.ReactN
       </aside>
       <main className={styles.adminMain}>
         <header className={styles.adminHeader}>
-          <div>Welcome Owner</div>
+          <div style={{ fontWeight: 600 }}>Welcome, {session.user.name || "Owner"}</div>
+          <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
+            <Link href="/" style={{ fontSize: "0.85rem", color: "var(--text-muted)" }}>View Site</Link>
+            <AdminSignOutButton />
+          </div>
         </header>
         <div className={styles.adminContent}>
           {children}

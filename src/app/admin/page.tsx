@@ -1,9 +1,12 @@
 import { prisma } from "@/lib/prisma";
-
+import { auth } from "@/auth";
 import AIGallery from "@/components/home/AIGallery";
 import Image from "next/image";
 
 export default async function AdminDashboardPage() {
+  const session = await auth();
+  const ownerName = session?.user?.name || "Owner";
+
   const productsCount = await prisma.product.count();
   const classesCount = await prisma.class.count();
   const ordersCount = await prisma.order.count();
@@ -15,7 +18,10 @@ export default async function AdminDashboardPage() {
       <div style={{ position: "relative", width: "100%", height: "200px", borderRadius: "12px", overflow: "hidden", marginBottom: "2rem" }}>
         <Image src="/images/hero_banner.jpg" alt="ANANTA Admin Banner" fill style={{ objectFit: "cover" }} priority />
         <div style={{ position: "absolute", inset: 0, background: "rgba(0,0,0,0.4)", display: "flex", alignItems: "center", padding: "2rem" }}>
-          <h1 style={{ color: "white", margin: 0, textShadow: "0 2px 4px rgba(0,0,0,0.5)" }}>Dashboard Overview</h1>
+          <div>
+            <h1 style={{ color: "white", margin: 0, textShadow: "0 2px 4px rgba(0,0,0,0.5)" }}>Welcome, {ownerName}</h1>
+            <p style={{ color: "rgba(255,255,255,0.85)", margin: "0.5rem 0 0", fontSize: "1rem" }}>Here's what's happening with ANANTA today</p>
+          </div>
         </div>
       </div>
       
